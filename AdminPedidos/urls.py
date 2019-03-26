@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from productos.views import HomeView , get_data , CharData
+from productos.views import HomeView , get_data , CharData 
 
 urlpatterns = [
     url('home' , HomeView.as_view() , name='home'),

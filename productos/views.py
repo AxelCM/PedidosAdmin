@@ -14,8 +14,6 @@ from rest_framework.response import Response
 User = get_user_model()
 
 
-
-
 class HomeView(View):
     def get(self , request , *args , **kwargs):
         return render(request, 'productos/charts.html', {})
@@ -33,10 +31,10 @@ class CharData(APIView):
     permission_classes = []
 
     def get(self, request, format=None):
-        qs_count = User.objects.all().count()
+        users = User.objects.all().count()
         products = Producto.objects.all().count()
-        labels = ['Vendedores', 'Productos', 'Otro', 'Otros2', 'Purple', 'Orange']
-        default_items = [qs_count , products, 7, 8, 11, 12]
+        labels = ['Vendedores', 'Productos', 'Prueba', 'Otros2', 'Purple', 'Orange']
+        default_items = [users, products, 5, 8, 11, 12]
         data = {
             "labels": labels,
             "default": default_items,
