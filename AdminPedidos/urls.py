@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from productos.views import HomeView , get_data , CharData
 
 urlpatterns = [
+    url('home' , HomeView.as_view() , name='home'),
+    url('api/chart/data' , CharData.as_view()),
+    url('api/data' , get_data , name='api-data'),
     path('admin/', admin.site.urls),
+
+
 ]
