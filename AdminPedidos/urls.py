@@ -15,14 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import  static
+from django.conf import settings
 from django.conf.urls import url
-from productos.views import HomeView , get_data , CharData 
+from productos.views import HomeView , get_data , CharData , CatalogoView  ,  view_product
 
 urlpatterns = [
     url('home' , HomeView.as_view() , name='home'),
+    url('catalogo' , CatalogoView.as_view() , name='catalogo'),
     url('api/chart/data' , CharData.as_view()),
     url('api/data' , get_data , name='api-data'),
+    #url('detail/<int:pk>/' , view_product , name='detail_product'),
+    url('detail/(?P<id_producto>[0-9])/$' , view_product , name='detail'),
+
     path('admin/', admin.site.urls),
 
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

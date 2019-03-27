@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View , TemplateView , DetailView
 
 #from models
 from productos.models import Producto
@@ -13,6 +13,14 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
+
+class CatalogoView(TemplateView):
+    template_name = 'productos/catalogo.html'
+
+
+    def get_context_data(request , *args , **kwargs):
+        productos = Producto.objects.all()
+        return {'productos': productos}
 
 class HomeView(View):
     def get(self , request , *args , **kwargs):
@@ -40,3 +48,8 @@ class CharData(APIView):
             "default": default_items,
         }
         return Response(data)
+
+
+def view_product(request, id_producto):
+    productos = Producto.objects.get(pk=id_producto)
+    return render(request, 'productos/product.html', {'productos': productos })

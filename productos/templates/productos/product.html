@@ -1,0 +1,37 @@
+{%extends 'productos/base.html' %}
+{%block title%}Catalogo{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">{{productos.nombre}}</h1>
+<main role="main">
+
+  <!-- <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Album example</h1>
+      <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+      <p>
+        <a href="#" class="btn btn-primary my-2">Main call to action</a>
+        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+      </p>
+    </div>
+  </section> -->
+
+  <div class="album md-5">
+    <div class="container">
+      <a class="btn btn-outline-secondary" href="{%url 'catalogo'%}">Regresar al Catalogo</a>
+
+      <div class="row">
+        <img src="  {{productos.picture.url}}" class="img-fluid" alt="Responsive image">
+      </div>
+      <div class="col-md-4">
+          <p><b>Producto:  </b>{{productos.nombre}}</p>
+          <p><b>Precio:  </b>Q.{{productos.precio}}</p>
+          <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
+          <p><b>Codigo:  </b>{{productos.codigo}}</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+{%endblock content%}
