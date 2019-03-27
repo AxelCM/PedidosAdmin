@@ -25,3 +25,8 @@ class Producto(models.Model):
     # def precio_IVA (self):
     #     total = self.precio * 1.12
     #     return total
+
+class Movimiento(models.Model):
+    id_movimiento = models.AutoField(primary_key=True)
+    c_entrada = models.IntegerField('Cantidad' , default=0)
+    c_salida= models.IntegerField('Cantidad' , default=0 )
