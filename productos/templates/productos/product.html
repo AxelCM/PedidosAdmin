@@ -24,11 +24,31 @@
       <div class="row">
         <img src="  {{productos.picture.url}}" class="img-fluid" alt="Responsive image">
       </div>
-      <div class="col-md-4">
-          <p><b>Producto:  </b>{{productos.nombre}}</p>
+      <div class="col-md-12">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{productos.codigo}}</td>
+              <td>{{productos.nombre}}</td>
+              <td>{{productos.categoria.nombre}}</td>
+              <td>Q.{{productos.precio}}</td>
+            </tr>
+            <tr>
+          </tbody>
+        </table>
+
+          <!-- <p><b>Producto:  </b>{{productos.nombre}}</p>
           <p><b>Precio:  </b>Q.{{productos.precio}}</p>
           <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
-          <p><b>Codigo:  </b>{{productos.codigo}}</p>
+          <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
       </div>
 
     </div>

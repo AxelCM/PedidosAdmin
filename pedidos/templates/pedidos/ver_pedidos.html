@@ -1,0 +1,36 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de pedidoss{%endblock title%}
+
+{%block navbar%}
+
+{%endblock navbar%}
+
+{%block content %}
+<h1 align="center">Bienvenido {{request.user.first_name}} {{request.user.last_name}}</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID PEDIDO</th>
+      <th scope="col">CLIENTE </th>
+      <th scope="col">FECHA DEL PEDIDO</th>
+      <th scope="col">CANT DE ITEMS</th>
+      <th scope="col">TOTAL </th>
+      <th scope="col">ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for pedidos in ped%}
+    <tr>
+      <td>{{pedidos.id_pedido}}</td>
+      <td>{{pedidos.cliente.nombre_comercial}}</td>
+      <td>{{pedidos.date}}</td>
+      <td>{{pedidos.conteoItems}}</td>
+      <td>Q.{{pedidos.totalpedido}}</td>
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">...</a></td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+
+
+{%endblock content%}

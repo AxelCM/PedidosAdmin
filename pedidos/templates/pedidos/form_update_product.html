@@ -1,0 +1,36 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">Actualizar Cantidad</h1>
+<div class="col-md-12">
+
+<form action="{%url "update_product" object.pk%}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+  <label for="exampleFormControlSelect1"><p><b>Producto:</b> {{object.producto}}</p>
+    Cantidad actual:
+    <b>{{object.cantidad}}</b></label>
+
+
+  <div class="form-group">
+    <label for="exampleFormControlInput1"></label>
+    <input type="number" class="form-control" id="exampleFormControlInput1" name="cantidad" placeholder="{{object.cantidad}}"  required="required">
+  </div>
+  <button type="submit" class="btn btn-success btn-block mt-5">Agregar producto</button>
+</div>
+</form>
+<br><br>
+<a align="middle" class="btn btn-info" href="{%url "detail_pedido" object.id_pedido_id %}">Regresar a Pedidos</a>
+  <!-- <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</option>
+    </select>
+  </div> -->
+
+</div>
+
+{%endblock content%}

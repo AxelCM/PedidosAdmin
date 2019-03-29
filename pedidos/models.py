@@ -56,6 +56,8 @@ class ItemPedido(models.Model):
     def __str__(self):
         return "%s" % (self.producto)
 
+
+
 # def totalpedido(self , id_pedido ):
 #     pd = PedidoEnvio.objects.get(pk=id_pedido)
 #     item = ItemPedido.objects.filter(id_pedido=pd)

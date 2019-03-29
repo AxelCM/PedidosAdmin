@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import View , TemplateView , DetailView
 
 #from models
-from productos.models import Producto
+from productos.models import Producto , Categoria
 
 #from others
 from rest_framework.views import APIView
@@ -13,6 +13,12 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
+class IndexView(TemplateView):
+    template_name = 'productos/index.html'
+
+    def get_context_data(self , *args , **kwargs):
+        users = User.objects.all()
+        return {'users' : users}
 
 class CatalogoView(TemplateView):
     template_name = 'productos/catalogo.html'
@@ -20,7 +26,8 @@ class CatalogoView(TemplateView):
 
     def get_context_data(request , *args , **kwargs):
         productos = Producto.objects.all()
-        return {'productos': productos}
+        categorias = Categoria.objects.all().order_by('nombre')
+        return {'productos': productos , 'categorias': categorias}
 
 class HomeView(View):
     def get(self , request , *args , **kwargs):

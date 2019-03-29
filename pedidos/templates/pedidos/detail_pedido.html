@@ -1,0 +1,90 @@
+{%extends 'productos/base.html' %}
+{%block title%}Catalogo{%endblock title%}
+
+{%block navbar%}
+<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+  </ul>
+  <a class="btn btn-primary"  href="{%url "ver_pedidos"%}">Regresar a Pedidos</a>
+</div>
+{%endblock navbar%}
+
+
+{%block content %}
+<main role="main">
+  <h1>Detalle del Pedido</h1>
+  <div class="col-md-12">
+    <table class="table table-sm" align="center">
+      <thead>
+        <tr>
+          <th scope="col">NO. PEDIDO</th>
+          <th scope="col">FECHA DEL PEDIDO</th>
+          <th scope="col">CLIENTE</th>
+          <th scope="col"> ACCION</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="Numeric">{{pedido.id_pedido}}</td>
+          <td>{{pedido.date}}</td>
+          <td>{{pedido.cliente}}</td>
+          <td>
+
+            <a class="btn btn-outline-secondary"  href="{%url "agregar_producto"%}">Agregar Producto</a>
+          </td>
+          <!-- <td>Q.{{pedido.precio}}</td> -->
+        </tr>
+
+        </tbody>
+        </table>
+<br>
+<br>
+
+  </div>
+      <div class="col-md-12">
+        <h2>Detalle de Articulos</h2>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">CANTIDAD</th>
+              <th scope="col">PRODUCTO</th>
+              <th scope="col">PRECIO UNIT</th>
+              <th scope="col">SUBTOTAL</th>
+              <th scope="col">-</th>
+              <!-- <th scope="col">Precio</th> -->
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {%for item in items%}
+
+              <td>{{item.cantidad}}</td>
+              <td>{{item.producto}}</td>
+              <td>Q.{{item.producto.precio}}</td>
+              <td>Q.{{item.sub_total}}</td>
+              <td><a class="btn btn-danger" href="{%url "remove_product"  item.pk%}">Quitar</a>
+                  <a class="btn btn-info" href="{%url "update_product"  item.id%}">Editar</a>
+                  </td>
+              <!-- <td>Q.{{item.precio}}</td> -->
+            </tr>
+            {%endfor%}
+            <tr>
+              <td>
+              </td>
+
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 align="right">TOTAL: Q.{{pedido.totalpedido}}</h3>
+          <!-- <p><b>Producto:  </b>{{productos.nombre}}</p>
+          <p><b>Precio:  </b>Q.{{productos.precio}}</p>
+          <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
+          <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
+      </div>
+
+</main>
+{%endblock content%}

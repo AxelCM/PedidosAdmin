@@ -1,0 +1,40 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">Iniciar un Pedido de Compra</h1>
+<div class="col-md-12">
+
+<form action="{%url "iniciar_pedido"%}" method="POST">
+  {% csrf_token %}
+  {# n_representante field #}
+  <!-- <div class="form-group">
+    <label for="exampleFormControlInput1">Cliente</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="n_representante" placeholder="Representante de la empresa">
+  </div> -->
+
+  <div class="form-group">
+  <label for="exampleFormControlSelect1">Cliente</label>
+
+  <select class="form-control" id="exampleFormControlSelect1" name="cliente">
+    {%for cliente in clientes%}
+    <option value="{{cliente.id_cliente}}" >{{cliente.nombre_comercial}}</option>
+
+    {%endfor%}
+
+
+  </select>
+  <button type="submit" class="btn btn-primary btn-block mt-5">Iniciar Pedido de Compra</button>
+</div>
+  <!-- <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</option>
+    </select>
+  </div> -->
+
+</div>
+
+{%endblock content%}
