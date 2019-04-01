@@ -1,0 +1,53 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">Actualizar Cliente</h1>
+<div class="col-md-12">
+  <div class="alert alert-warning" role="alert">
+    <h4>Advertencia</h4>Estas a punto de Modificar la informacion de : {{object.nombre_comercial}}
+  </div>
+
+
+<form action="{%url "update_client" object.pk%}" method="POST">
+  {% csrf_token %}
+  {# n_representante field #}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre del Representante</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="n_representante" value="{{object.n_representante}}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre Comercial</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre_comercial" value="{{object.nombre_comercial}}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">NIT</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nit" value="{{object.nit}}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Telefono</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="telefono" value="{{object.telefono}}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Direccion</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="direccion" value="{{object.direccion}} ">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="email" value="{{object.email}}">
+  </div>
+  <div class="form-check">
+    {%if object.mayorista == True %}
+    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
+    {%endif%}
+    {%if object.mayorista == False %}
+    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" >
+    {%endif%}
+
+    <label class="form-check-label" for="defaultCheck1" name="mayorista">
+      Mayorista
+    </label>
+  </div>
+  <button type="submit" class="btn btn-danger btn-block mt-5">Guardar Cambios</button>
+{%endblock content%}

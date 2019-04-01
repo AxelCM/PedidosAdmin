@@ -1,0 +1,39 @@
+{%extends 'productos/base.html' %}
+{%block title%}Lista de Clientes{%endblock title%}
+
+{%block navbar%}
+
+{%endblock navbar%}
+
+{%block content %}
+<h1 align="center">Listado De Clientes</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">COD. CLIENTE</th>
+      <th scope="col">REPRESENTANTE</th>
+      <th scope="col">NOMBRE COMERCIAL</th>
+      <th scope="col">NIT</th>
+      <th scope="col">CONTACTO</th>
+      <th scope="col">DIRECCION</th>
+      <th scope="col">CORREO ELECTORNICO </th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for cliente in clientes%}
+    <tr>
+      <td>{{cliente.id_cliente}}</td>
+      <td>{{cliente.n_representante}}</td>
+      <td>{{cliente.nombre_comercial}}</td>
+      <td>{{cliente.nit}}</td>
+      <td>{{cliente.telefono}}</td>
+      <td>{{cliente.direccion}}</td>
+      <td>{{cliente.email}}</td>
+      <td><a class="btn btn-outline-secondary" href="{%url "update_client" cliente.id_cliente%}">Editar</a></td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+
+
+{%endblock content%}
