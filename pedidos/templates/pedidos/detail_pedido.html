@@ -1,5 +1,5 @@
 {%extends 'productos/base.html' %}
-{%block title%}Catalogo{%endblock title%}
+{%block title%}Detalle de Pedido{%endblock title%}
 
 {%block navbar%}
 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -80,11 +80,24 @@
           </tbody>
         </table>
         <h3 align="right">TOTAL: Q.{{pedido.totalpedido}}</h3>
+        <h4 align="right" style="color:red;">-Q.{{pedido.Abonado}}</h4>
+        <h2 align="right">SALDO: Q.{{pedido.Saldo}}</h2>
           <!-- <p><b>Producto:  </b>{{productos.nombre}}</p>
           <p><b>Precio:  </b>Q.{{productos.precio}}</p>
           <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
           <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
       </div>
-
+<h1>Historial de Abonos</h1>
+{%for abono in abonos%}
+<p>Fecha:{{abono.fecha}} por Q.{{abono.cantidad}} en {{abono.tipo_pago}}</p>
+{%empty%}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos!</h4> No hay Abonos de este pedido!
+</div>
+{%endfor%}
+{%if abonos%}
+<h3>TOTAL ABONADO: {{pedido.Abonado}}</h3>
+{%endif%}
 </main>
 {%endblock content%}

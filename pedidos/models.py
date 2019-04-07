@@ -4,6 +4,13 @@ from django.db import models
 from productos.models import Producto
 from clientes.models import Cliente
 
+class TipoPago(models.Model):
+    tipo_pago = models.CharField('Tipo de Pago' , max_length=25)
+
+    def __str__(self):
+        return "%s" % (self.tipo_pago)
+
+
 class PedidoVentas(models.Model):
     id_pedido = models.AutoField(primary_key=True)
     cliente = models.ForeignKey(Cliente , on_delete=models.CASCADE)
@@ -31,6 +38,21 @@ class PedidoVentas(models.Model):
     def __str__(self):
         return "%s %s %s %s" % ("Pedido No.", self.id_pedido, "-", self.cliente)
 
+    def Abonado(self):
+        abonos = Abono.objects.filter(id_pedido=self.id_pedido)
+        suma = 0
+        for abono in abonos:
+            haber = abono.cantidad
+            suma += haber
+        return suma
+
+    def Saldo(self):
+        saldo = self.totalpedido()
+        haber = self.Abonado()
+        bal = saldo - haber
+        return bal
+
+
     class Meta:
         verbose_name_plural  = 'Pedidos'
         verbose_name = 'Pedido'
@@ -55,6 +77,45 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return "%s" % (self.producto)
+
+
+
+class Abono(models.Model):
+
+    id_abono = models.AutoField(primary_key=True)
+    id_pedido = models.ForeignKey(PedidoVentas , on_delete=models.CASCADE)
+    fecha = models.DateTimeField()
+    cantidad = models.DecimalField('Monto' , default=0  , decimal_places=2 , max_digits=9)
+    tipo_pago = models.ForeignKey(TipoPago , on_delete=models.CASCADE)
+    observaciones = models.TextField('Observaciones' , max_length=250 , blank=True , null=True)
+
+    def __str__(self):
+        return "%s %s" % (self.id_pedido , self.cantidad)
+
+    def totalpedido(self):
+        #pd = PedidoVentas.objects.get(id_pedido=self.id_pedido)
+
+        items = ItemPedido.objects.filter(id_pedido=self.id_pedido)
+        total = 0
+        for item in items:
+            cantidad = item.cantidad
+            value = item.producto.precio
+            total += cantidad * value
+        return total
+
+    def Abonado(self):
+        abonos = Abono.objects.filter(id_pedido=self.id_pedido)
+        suma = 0
+        for abono in abonos:
+            haber = abono.cantidad
+            suma += haber
+        return suma
+
+    def Saldo(self):
+        saldo = self.totalpedido()
+        haber = self.Abonado()
+        bal = saldo - haber
+        return bal
 
 
 

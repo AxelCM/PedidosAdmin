@@ -2,10 +2,10 @@ from django.shortcuts import render , get_object_or_404
 from django.views.generic import FormView , CreateView , TemplateView , DetailView , DeleteView , UpdateView
 from django.urls import reverse , reverse_lazy
 
-from pedidos.models import PedidoVentas , ItemPedido
+from pedidos.models import PedidoVentas , ItemPedido , Abono
 from productos.models import Producto
 from clientes.models import Cliente
-from pedidos.forms import PedidoForm , AddProductoForm
+from pedidos.forms import PedidoForm , AddProductoForm , AbonoForm
 
 class CreatePedido(CreateView):
 
@@ -67,4 +67,24 @@ class PedidoDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         id_pedidos = self.get_object()
         context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
+        context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
         return context
+
+def abonoNew(request):
+    form = AbonoForm()
+    return render(request, 'pedidos/tryforms.html', {'form': form})
+
+class AddAbono(CreateView):
+
+    template_name = 'pedidos/tryforms.html'
+    form_class = AbonoForm
+    success_url = reverse_lazy('index')
+
+class SaldosViews(TemplateView):
+    template_name = 'pedidos/saldos.html'
+
+    def get_context_data(self , *args , **kwargs):
+
+        pedidos = PedidoVentas.objects.all()
+        abonos = Abono.objects.all()
+        return {'pedidos': pedidos , 'abonos':abonos}

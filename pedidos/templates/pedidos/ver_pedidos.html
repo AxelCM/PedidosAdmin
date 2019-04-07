@@ -6,15 +6,16 @@
 {%endblock navbar%}
 
 {%block content %}
-<h1 align="center">Bienvenido {{request.user.first_name}} {{request.user.last_name}}</h1>
+<br>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">ID PEDIDO</th>
+      <th scope="col">NO. PEDIDO</th>
       <th scope="col">CLIENTE </th>
       <th scope="col">FECHA DEL PEDIDO</th>
       <th scope="col">CANT DE ITEMS</th>
       <th scope="col">TOTAL </th>
+      <th scope="col">SALDO </th>
       <th scope="col">ACCIONES</th>
     </tr>
   </thead>
@@ -26,8 +27,14 @@
       <td>{{pedidos.date}}</td>
       <td>{{pedidos.conteoItems}}</td>
       <td>Q.{{pedidos.totalpedido}}</td>
+      <td>Q.{{pedidos.Saldo}}</td>
       <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">...</a></td>
     </tr>
+    {%empty%}
+    <br>
+    <div class="alert alert-warning" role="alert">
+      <h4>Lo Sentimos</h4> No hay Pedidos Creados en este momento!
+    </div>
     {%endfor%}
   </tbody>
 </table>

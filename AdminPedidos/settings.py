@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'productos',
     'rest_framework',
     'pedidos',
+    'tempus_dominus',
     'clientes',
 ]
 
@@ -117,6 +118,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+TEMPUS_DOMINUS_LOCALIZE = True
+TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

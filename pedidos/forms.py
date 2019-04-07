@@ -1,6 +1,7 @@
 from django import forms
-from pedidos.models import PedidoVentas , ItemPedido
-
+from pedidos.models import PedidoVentas , ItemPedido , Abono
+from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+import datetime
 
 class PedidoForm(forms.ModelForm):
 
@@ -22,9 +23,13 @@ class AddProductoForm(forms.ModelForm):
         'cantidad'
         )
 
-    # def save(self):
-    #     cliente = self.cleaned_data['cliente']
-    #     pedido = Cliente.objects.create(
-    #     cliente=cliente ,
-    #     )
-    #     pedido.save()
+
+
+class AbonoForm(forms.ModelForm):
+
+    class Meta:
+       model = Abono
+       fields = ['fecha' ,'cantidad']
+       widgets = {
+        'fecha': forms.DateTimeInput(attrs={'class': 'datetime-input'})
+        }

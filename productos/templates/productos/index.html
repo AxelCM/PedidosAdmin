@@ -2,41 +2,7 @@
 {%block title%}Control de Pedidos{%endblock title%}
 
 {%block navbar%}
-<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-    <li class="nav-item active">
-      <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item active dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Clientes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{%url "list_client"%}">Ver Clientes</a>
-              <a class="dropdown-item" href="{%url "register_client"%}">Agregar Cliente</a>
-            </div>
-    </li>
-    <li class="nav-item active dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Pedidos
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{%url "iniciar_pedido"%}">Iniciar Un Pedido</a>
-              <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Pedidos</a>
-            </div>
-    </li>
-    <li class="nav-item active">
-      <a class="nav-link " href="{%url "catalogo"%}">Saldos</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="{%url "catalogo"%}">Catalogo</a>
-    </li>
-</ul>
-  <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</div>
+
 {%endblock navbar%}
 
 {%block content %}
