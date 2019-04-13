@@ -1,0 +1,50 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+
+{%block content %}
+<br>
+<div class="alert alert-danger" role="alert">
+  <h4>Confirmacion!</h4>Esta a punto de guardar/actualizar un abono
+</div>
+<h1 align="center">Ingresar Cantidad</h1>
+<div class="col-md-12">
+
+<form action="{%url "update_abono" object.pk%}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+  <label for="exampleFormControlSelect1"><p><b>Cliente:</b> {{object.id_pedido}}</p>
+    <!-- Cantidad actual:
+    <b>{{object.cantidad}}</b> -->
+  </label>
+
+
+
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Monto a Abonar Q.</label>
+    <input type="number" step=".01" class="form-control" id="exampleFormControlInput1" name="cantidad" placeholder="{{object.cantidad}}"  required="required">
+  </div>
+  {%if object.tipo_pago.pk == 2 %}
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Observaciones: </label>
+      <!-- <input type="text" class="form-control" id="exampleFormControlInput1" name="observaciones" placeholder=""  required="required"> -->
+      <textarea class="form-control" rows="5" id="comment" name="observaciones" placeholder="{{object.observaciones}}"></textarea>
+    </div>
+  {%endif%}
+
+  <button type="submit" class="btn btn-success btn-block mt-5">Finalizar!</button>
+</div>
+</form>
+<br><br>
+<!-- <a align="middle" class="btn btn-info" href="{%url "detail_pedido" object.id_pedido_id %}">Regresar a Pedidos</a> -->
+  <!-- <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</option>
+    </select>
+  </div> -->
+
+</div>
+
+{%endblock content%}

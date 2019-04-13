@@ -29,7 +29,10 @@ class AbonoForm(forms.ModelForm):
 
     class Meta:
        model = Abono
-       fields = ['fecha' ,'cantidad']
-       widgets = {
-        'fecha': forms.DateTimeInput(attrs={'class': 'datetime-input'})
-        }
+       fields = ['id_pedido' ,'cantidad' , 'tipo_pago' , 'observaciones']
+
+class AbonarForm(forms.ModelForm):
+
+    class Meta:
+       model = Abono
+       fields = ['id_pedido' , 'tipo_pago' ]

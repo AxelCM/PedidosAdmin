@@ -56,6 +56,15 @@ class CharData(APIView):
         }
         return Response(data)
 
+class ProductoDetailView(DetailView):
+    """User detail view."""
+
+    template_name = 'productos/product.html'
+    slug_field = 'id_producto'
+    slug_url_kwarg = 'id_producto'
+    queryset = Producto.objects.all()
+    context_object_name = 'productos'
+
 
 def view_product(request, id_producto):
     productos = Producto.objects.get(pk=id_producto)

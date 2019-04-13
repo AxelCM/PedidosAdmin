@@ -75,6 +75,14 @@ class ItemPedido(models.Model):
         subtotal= self.producto.precio * self.cantidad
         return subtotal
 
+    def itemtotal(self):
+        items = ItemPedido.objects.filter(producto=self.producto)
+        total = 0
+        for item in items:
+            cant = item.cantidad
+            total += cant
+        return total
+
     def __str__(self):
         return "%s" % (self.producto)
 
@@ -84,10 +92,10 @@ class Abono(models.Model):
 
     id_abono = models.AutoField(primary_key=True)
     id_pedido = models.ForeignKey(PedidoVentas , on_delete=models.CASCADE)
-    fecha = models.DateTimeField()
+    fecha = models.DateTimeField('Fecha' , auto_now_add=True)
     cantidad = models.DecimalField('Monto' , default=0  , decimal_places=2 , max_digits=9)
     tipo_pago = models.ForeignKey(TipoPago , on_delete=models.CASCADE)
-    observaciones = models.TextField('Observaciones' , max_length=250 , blank=True , null=True)
+    observaciones = models.TextField('Observaciones' , default=' ' ,  max_length=250 , blank=True , null=True)
 
     def __str__(self):
         return "%s %s" % (self.id_pedido , self.cantidad)

@@ -87,17 +87,18 @@
           <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
           <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
       </div>
-<h1>Historial de Abonos</h1>
+  {%if abonos%}
+  <h2>TOTAL ABONADO: {{pedido.Abonado}}</h2>
+  {%endif%}
+<h4>Historial de Abonos</h4>
 {%for abono in abonos%}
-<p>Fecha:{{abono.fecha}} por Q.{{abono.cantidad}} en {{abono.tipo_pago}}</p>
+<p> <b>Fecha:</b> {{abono.fecha}} por Q.{{abono.cantidad}} en {{abono.tipo_pago}} <a href="{%url "update_abono" abono.pk%}">Editar</a></p>
 {%empty%}
 <br>
 <div class="alert alert-warning" role="alert">
   <h4>Lo Sentimos!</h4> No hay Abonos de este pedido!
 </div>
 {%endfor%}
-{%if abonos%}
-<h3>TOTAL ABONADO: {{pedido.Abonado}}</h3>
-{%endif%}
+<br>
 </main>
 {%endblock content%}

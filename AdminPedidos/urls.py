@@ -18,7 +18,7 @@ from django.urls import path , include
 from django.conf.urls.static import  static
 from django.conf import settings
 from django.conf.urls import url
-from productos.views import HomeView , get_data , CharData , CatalogoView  ,  view_product , IndexView
+from productos.views import HomeView , get_data , CharData , CatalogoView  ,  view_product , IndexView , ProductoDetailView
 from pedidos.views import PedidoDetailView
 
 urlpatterns = [
@@ -29,7 +29,7 @@ urlpatterns = [
     url('api/data' , get_data , name='api-data'),
     #url('detail/<int:pk>/' , view_product , name='detail_product'),
     #url('detail/pedido/<int:id_pedido>/' , detail_pedido , name='detail_pedido'),
-    url('detail/producto/(?P<id_producto>[0-9])/$' , view_product , name='detail'),
+    # url('detail/producto/<int:id_producto>/' , ProductoDetailView.as_view() , name='detail_producto'),
 
     #url('detail/pedido/(?P<id_pedido>[0-9])/$' , detail_pedido , name='detail_pedido'),
     path('admin/', admin.site.urls),

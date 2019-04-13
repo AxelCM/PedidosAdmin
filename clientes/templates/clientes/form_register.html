@@ -3,9 +3,11 @@
 
 
 {%block content %}
-<h1 align="center">Formulario para Registro de Clientes</h1>
-<div class="col-md-12">
+<h1 align="center">Formulario para Registro de Clientes   <a align="center" class="btn btn-danger" href="{%url "list_client"%}">Regresar</a></h1>
 
+
+<div class="col-md-12">
+<br>
 <form action="{%url "register_client"%}" method="POST">
   {% csrf_token %}
   {# n_representante field #}
@@ -33,21 +35,6 @@
     <label for="exampleFormControlInput1">Email</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" name="email" placeholder="Correo Electornico">
   </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-    <label class="form-check-label" for="defaultCheck1" name="mayorista">
-      Mayorista
-    </label>
-  </div>
-  <button type="submit" class="btn btn-primary btn-block mt-5">Registrar Cliente</button>
-  <!-- <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-    </select>
-  </div> -->
-
-</div>
+    <button align="center" type="submit" class="btn btn-primary btn-block mt-5">Registrar Cliente</button>
 
 {%endblock content%}

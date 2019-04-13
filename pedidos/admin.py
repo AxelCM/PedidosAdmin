@@ -14,14 +14,14 @@ class PedidoVentasAdmin(admin.ModelAdmin):
 class ItemPedidoAdmin(admin.ModelAdmin):
     raw_id_fields = ("producto",)
     search_fields = ['id_producto']
-    list_display = ['id_pedido','cantidad', 'producto' , 'sub_total' ]
+    list_display = ['id_pedido','cantidad', 'producto' , 'sub_total' , 'itemtotal']
 
 class AbonoAdmin(admin.ModelAdmin):
     list_display = ['id_abono' , 'id_pedido' , 'fecha' , 'totalpedido', 'cantidad' ,  'Saldo']
 
 class TipoPagoAdmin(admin.ModelAdmin):
 
-    list_display = ['tipo_pago']
+    list_display = ['tipo_pago' , 'pk']
 
 
 admin.site.register(PedidoVentas, PedidoVentasAdmin)

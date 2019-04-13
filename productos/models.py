@@ -8,7 +8,7 @@ class Categoria(models.Model):
         return "%s" % (self.nombre)
 
 class Producto(models.Model):
-    id_producto = models.AutoField(primary_key=True)
+    id_producto = models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre' , max_length=100 )
     picture = models.ImageField(
         upload_to='productos/images',

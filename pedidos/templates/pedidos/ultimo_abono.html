@@ -1,0 +1,49 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de pedidoss{%endblock title%}
+
+{%block navbar%}
+
+{%endblock navbar%}
+
+{%block content %}
+
+<h1 align='center'>2do Paso. Verificacion de Cliente y Pedido</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">PEDIDO</th>
+      <th scope="col">TIPO DE PAGO</th>
+      <th scope="col"> </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>{{ultimo_abono.id_pedido}}</td>
+      <td>{{ultimo_abono.tipo_pago}}</td>
+      <!-- <td>{{ultimo_abono.cantidad}}</td> -->
+      <td><a class='btn btn-primary' href="{%url "update_abono" ultimo_abono.pk%}">Confirmar</a></td>
+    </tr>
+  </table>
+
+  <br>
+  <div class="alert alert-warning" role="alert">
+    <h4>Atencion!</h4>Esta a punto de crear un abono, favor verifique que sea el cliente y el pedido correcto.
+  </div>
+<br><br>
+  <div class="col col-sm-8">
+
+{%if abonos%}
+    <h1>Ultimos Abonos Ingresados</h1>
+    <br>
+{%endif%}
+{%for abono in abonos%}
+<p><b>{{abono.id_pedido}}</b> *-*-*- {{abono.tipo_pago}} *-*-*-*- Q.{{abono.cantidad}}</p>
+
+{%endfor%}
+</div>
+
+
+
+
+{%endblock content%}
