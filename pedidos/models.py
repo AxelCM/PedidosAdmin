@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from productos.models import Producto
 from clientes.models import Cliente
+from datetime import *
 
 class TipoPago(models.Model):
     tipo_pago = models.CharField('Tipo de Pago' , max_length=25)
@@ -52,6 +53,13 @@ class PedidoVentas(models.Model):
         bal = saldo - haber
         return bal
 
+    def EDT(self):
+        pedidos = PedidoVentas.objects.filter(id_pedido=self.id_pedido)
+        suma = 0
+        for pedido in pedidos:
+            saldo = self.Saldo()
+            suma += saldo
+        return saldo
 
     class Meta:
         verbose_name_plural  = 'Pedidos'
@@ -67,6 +75,8 @@ class PedidoEnvio(models.Model):
         pass
 
 class ItemPedido(models.Model):
+    fecha = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateField(auto_now_add=True)
     id_pedido = models.ForeignKey(PedidoVentas , on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto , on_delete=models.CASCADE)
     cantidad = models.IntegerField('Cantidad' , default=1)
@@ -82,6 +92,16 @@ class ItemPedido(models.Model):
             cant = item.cantidad
             total += cant
         return total
+
+    # def despacho(self):
+    #     hoy = datetime.today()
+    #     items = ItemPedido.objects.filter(create_at=hoy)
+    #     total = 0
+    #     for item in items:
+    #         cant = item.cantidad
+    #         total += cant
+    #         return total
+
 
     def __str__(self):
         return "%s" % (self.producto)

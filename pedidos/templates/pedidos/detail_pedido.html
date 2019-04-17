@@ -33,15 +33,18 @@
 
             <a class="btn btn-outline-secondary"  href="{%url "agregar_producto"%}">Agregar Producto</a>
           </td>
-          <!-- <td>Q.{{pedido.precio}}</td> -->
         </tr>
 
         </tbody>
         </table>
-<br>
-<br>
+        <br>
+
+      {%include "pedidos/widgets_add_product.html"%}
+
 
   </div>
+  <br>
+  <br>
       <div class="col-md-12">
         <h2>Detalle de Articulos</h2>
         <table class="table table-sm">

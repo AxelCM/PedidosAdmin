@@ -1,11 +1,13 @@
 #from django
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.views.generic import View , TemplateView , DetailView
 
 #from models
 from productos.models import Producto , Categoria
+
 
 #from others
 from rest_framework.views import APIView
@@ -13,12 +15,7 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
-class IndexView(TemplateView):
-    template_name = 'productos/index.html'
 
-    def get_context_data(self , *args , **kwargs):
-        users = User.objects.all()
-        return {'users' : users}
 
 class CatalogoView(TemplateView):
     template_name = 'productos/catalogo.html'

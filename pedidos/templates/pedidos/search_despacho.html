@@ -1,0 +1,81 @@
+{%extends 'productos/base.html' %}
+{%block title%}Despacho{%endblock title%}
+
+{%block navbar%}
+
+
+{%endblock navbar%}
+{%block search_bar%}
+
+{%endblock search_bar%}
+
+{%block content %}
+<h1 align='center'>Orden de Despacho General</h1>
+<h3>Filtrar por fecha:</h3>
+<br>
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="date"  name="q" size=50% value="{{ query|escape }}">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+
+
+{% if query %}
+  {% if results%}
+
+
+<!-- <br><br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">PRODUCTO</th>
+      <th scope="col">CANTIDAD TOTAL</th>
+      {% for search in results  %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{search.producto}}</td>
+      <td>{{search.itemtotal}}</td>
+    </tr>
+{%endfor%}
+</tbody>
+</table> -->
+
+
+<div style="float:left; " >
+    <table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">PRODUCTO</th>
+					{% for search in results  %}
+				</tr>
+			</thead>
+      <tr><td>{{search.producto}}</td></tr>
+			{%endfor%}
+    </table>
+</div>
+<div style="float:left;" >
+    <table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">CANTIDAD TOTAL</th>
+					{% for cant in cantidad  %}
+				</tr>
+				</thead>
+      <tr><td>{{cant.cantidad}}</td></tr>
+			{%endfor%}
+    </table>
+</div>
+
+{% else %}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos</h4> No se encontraron despachos para la fecha <b>"{{query}}"</b>
+</div>
+{% endif %}
+{% endif %}
+
+
+
+{%endblock content%}

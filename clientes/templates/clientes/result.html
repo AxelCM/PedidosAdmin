@@ -1,0 +1,60 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+{%block navbar%}
+
+
+{%endblock navbar%}
+{%block search_bar%}
+
+{%endblock search_bar%}
+
+{%block content %}
+<br>
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="search" name="q" placeholder="Buscar por empresa"  size=50% value="{{ query|escape }}">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+
+
+{% if query %}
+  {% if results%}
+
+
+<br><br>
+<table class="table table-striped">
+  <thead>
+		<tr>
+      <th scope="col">COD. CLIENTE</th>
+      <th scope="col">NOMBRE COMERCIAL</th>
+      <th scope="col">NIT</th>
+      <th scope="col">DIRECCION</th>
+      <th scope="col">CORREO ELECTORNICO </th>
+      <th scope="col">ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+		{% for search in results  %}
+    <tr>
+      <td>{{search.id_cliente}}</td>
+      <td>{{search.nombre_comercial}}</td>
+      <td>{{search.nit}}</td>
+      <td>{{search.direccion}}</td>
+      <td>{{search.email}}</td>
+			<td><a  class="btn btn-primary" href="{%url "update_client" search.id_cliente%}">Editar</a></td>
+    </tr>
+{%endfor%}
+  </tbody>
+</table>
+
+{% else %}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos!</h4>No se encontro ningun resultado para: <b>"{{query}}"</b>
+</div>
+{% endif %}
+{% endif %}
+
+
+{%endblock content%}

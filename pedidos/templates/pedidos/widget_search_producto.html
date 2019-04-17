@@ -1,0 +1,32 @@
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="search" name="q" placeholder="Nombre, Codigo"  size=50% value="{{ query|escape }}">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+{% if query %}
+  {% if results%}
+
+
+{% for search in results  %}
+<br><br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">COD</th>
+      <th scope="col">PRODCUTO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{search.id_producto}}</td>
+      <td>{{search.nombre}}</td>
+    </tr>
+  </tbody>
+</table>
+
+{%endfor%}
+
+{% else %}
+<h3>No se encontro producto</h3>
+{% endif %}
+{% endif %}

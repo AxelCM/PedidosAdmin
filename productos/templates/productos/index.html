@@ -4,8 +4,12 @@
 {%block navbar%}
 
 {%endblock navbar%}
+{%block search_bar%}
+
+
+{%endblock search_bar%}
 
 {%block content %}
-{{ value|date:"D d M Y" }}
-<h1 align="center">Bienvenido {{request.user.first_name}} {{request.user.last_name}}</h1>
+<h1>Bienvenido {{request.user.first_name}}</h1>
+
 {%endblock content%}

@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render , render_to_response
 from django.urls import reverse ,reverse_lazy
-from django.views.generic import FormView , TemplateView , UpdateView , DetailView
+from django.db.models import Q
+from django.views.generic import FormView , TemplateView , UpdateView , DetailView , ListView
 from clientes.forms import RegisterClientForm
 
 from clientes.models import Cliente
@@ -10,7 +11,7 @@ class Register(FormView):
 
     template_name = 'clientes/form_register.html'
     form_class = RegisterClientForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('list_client')
 
 
     def form_valid(self, form):
@@ -25,12 +26,15 @@ class ClienteDetailView(DetailView):
     queryset = Cliente.objects.all()
     context_object_name = 'cliente'
 
-class ClientesView(TemplateView):
+class ClientesView(ListView):
     template_name = 'clientes/client_list.html'
+    model = Cliente
+    paginate_by = 5
+    queryset = clientes = Cliente.objects.all().order_by("-id_cliente")
 
-    def get_context_data(self, *args , **kwargs):
-        clientes = Cliente.objects.all()
-        return {'clientes' : clientes}
+    # def get_context_data(self, *args , **kwargs):
+    #     clientes = Cliente.objects.all()
+    #     return {'clientes' : clientes}
 
 
 class UpdateClient(UpdateView):
@@ -45,3 +49,16 @@ class UpdateClient(UpdateView):
         ]
     success_url = reverse_lazy('list_client')
     template_name = 'clientes/form_update_cliente.html'
+
+
+def search_cliente(request):
+    query = request.GET.get('q', '')
+    if query:
+        qset = (
+            Q(nombre_comercial__icontains=query)
+            # |Q(nombre_comercial__icontains=query)
+            )
+        results = Cliente.objects.filter(qset).distinct()
+    else:
+        results = []
+    return render_to_response("clientes/result.html", {"results": results ,"query": query})

@@ -6,6 +6,7 @@
 {%endblock navbar%}
 
 {%block content %}
+{{hoy}}
   <h1>Despacho del Dia</h1>
   <br>
   <p>Despacho del Dia! aqui se carga una suma total de todos los articulos que deben enviarse, transpotarse para entregar</p>
@@ -25,36 +26,16 @@
         <td>{{producto.itemtotal}}</td>
         <td>
           <a href="{%url "detail_producto" producto.producto.id_producto%}">Ver producto</a>
-          <!-- <div class="accordion" id="accordionExample">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Ver Mas
-                  </button>
-                </h5>
-              </div>
-              <tr>
-                <td colspan="3">
-              <div id="collapseOne" class="collapse hidden" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-                funciona
-              </div>
-            </div>
-            </td>
-          </tr>
-          </div>
-        </div> -->
-
         </td>
       </tr>
       {%endfor%}
     </tbody>
   </table>
-  <!-- {%for producto in productos%}
 
-  <td>{{producto.itemtotal}}</td>
-  {%endfor%} -->
+  <h3>SOLO DE HOY</h3>
+  {%for hoy in pd_hoy%}
+<p>{{hoy.producto}} , {{hoy.itemtotal}}</p>
+  {%endfor%}
 
 
 

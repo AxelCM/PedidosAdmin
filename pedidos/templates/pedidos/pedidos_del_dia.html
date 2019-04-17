@@ -6,37 +6,35 @@
 {%endblock navbar%}
 
 {%block content %}
-<h1 align="center">Listado De Clientes</h1>
+<h1 align="center">Pedidos de hoy </h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">COD. CLIENTE</th>
-      <th scope="col">REPRESENTANTE</th>
-      <th scope="col">NOMBRE COMERCIAL</th>
-      <th scope="col">NIT</th>
-      <th scope="col">CONTACTO</th>
-      <th scope="col">DIRECCION</th>
-      <th scope="col">CORREO ELECTORNICO </th>
-      <th scope="col"><a  class="btn btn-primary" href="{%url "register_client"%}">Agregar Cliente</a></th>
+      <th scope="col">NO. PEDIDO</th>
+      <th scope="col">CLIENTE </th>
+      <th scope="col">FECHA DEL PEDIDO</th>
+      <th scope="col">CANT DE ITEMS</th>
+      <th scope="col">TOTAL </th>
+      <th scope="col">SALDO </th>
+      <th scope="col">ACCIONES</th>
     </tr>
   </thead>
   <tbody>
-    {%for cliente in cliente_list%}
+    {%for pedidos in pedidoventas_list%}
     <tr>
-      <td>{{cliente.id_cliente}}</td>
-      <td>{{cliente.n_representante}}</td>
-      <td>{{cliente.nombre_comercial}}</td>
-      <td>{{cliente.nit}}</td>
-      <td>{{cliente.telefono}}</td>
-      <td>{{cliente.direccion}}</td>
-      <td>{{cliente.email}}</td>
-      <td><a class="btn btn-outline-secondary" href="{%url "update_client" cliente.id_cliente%}">Editar</a></td>
+      <td>{{pedidos.id_pedido}}</td>
+      <td>{{pedidos.cliente.nombre_comercial}}</td>
+      <td>{{pedidos.date}}</td>
+      <td>{{pedidos.conteoItems}}</td>
+      <td>Q.{{pedidos.totalpedido}}</td>
+      <td>Q.{{pedidos.Saldo}}</td>
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">+</a></td>
     </tr>
     {%endfor%}
   </tbody>
 </table>
-<p>Mostrando 5 resultados por pagina.</p>
+<p>Mostrando 10 resultados por pagina.</p>
 <br>
 <br>
 <div class="col col-md-12">
@@ -55,7 +53,7 @@
 
   <li class="page-item">
     {% if page_obj.has_next %}
-    <a class="page-link" href="{% url 'list_client' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
+    <a class="page-link" href="{% url 'pedidos_hoy' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
       <span aria-hidden="true">Sig. &raquo;</span>
       <span class="sr-only">Sig.</span>
     </a>

@@ -1,0 +1,63 @@
+{%extends 'productos/base.html' %}
+{%block title%}Despacho{%endblock title%}
+
+{%block navbar%}
+
+
+{%endblock navbar%}
+{%block search_bar%}
+
+{%endblock search_bar%}
+
+{%block content %}
+<h1 align='center'>Estado de Cuenta por Cliente</h1>
+<br>
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="search" placeholder="Buscar por cliente"  name="q" size=50% value="{{ query|escape }}">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+
+
+{% if query %}
+  {% if results%}
+
+
+<br><br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">CLIENTE</th>
+      <th scope="col">No. PEDIDO</th>
+      <th scope="col">MONTO</th>
+      <th scope="col">SALDO ABONADO</th>
+      <th scope="col">SALDO PENDIENTE</th>
+      <th scope="col"> </th>
+      {% for search in results  %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{search.cliente}}</td>
+      <td>{{search.id_pedido}}</td>
+      <td>Q.{{search.totalpedido}}</td>
+      <td>Q.{{search.Abonado}}</td>
+      <td>Q.{{search.Saldo}}</td>
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" search.id_pedido%}">+</a></td>
+    </tr>
+{%endfor%}
+<h1>Saldo Total </h1>
+</tbody>
+</table>
+
+{% else %}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos</h4> No encontramos resultados para: <b>"{{query}}"</b>
+</div>
+{% endif %}
+{% endif %}
+
+
+
+{%endblock content%}
