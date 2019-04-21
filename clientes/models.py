@@ -1,5 +1,7 @@
 from django.db import models
 
+
+#Modelo para crear los clientes
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
     n_representante = models.CharField('Nombre del Representante' , max_length=100)

@@ -1,6 +1,6 @@
 {%extends 'productos/base.html' %}
 {%block title%}Catalogo{%endblock title%}
-
+{%load static%}
 
 {%block content %}
 <h1 align="center">{{productos.nombre}}</h1>
@@ -22,7 +22,11 @@
       <a class="btn btn-outline-secondary" href="{%url 'catalogo'%}">Regresar al Catalogo</a>
 
       <div class="row">
-        <img src="  {{productos.picture.url}}" class="img-fluid" alt="Responsive image">
+        {% if productos.picture %}
+        <img class="rounded" src="{{productos.picture.url}}" width="450px" height="450px" />
+        {% else%}
+        <img class="rounded" src="{% static 'productos/img/default.png' %}" width="450px" height="450px" />
+        {%endif%}
       </div>
       <div class="col-md-12">
         <table class="table table-sm">

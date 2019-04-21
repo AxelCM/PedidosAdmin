@@ -1,6 +1,8 @@
 from django import forms
 from clientes.models import Cliente
 
+
+#Formulario para Registrar un cliente nuevo
 class RegisterClientForm(forms.ModelForm):
 
     class Meta:
@@ -16,9 +18,10 @@ class RegisterClientForm(forms.ModelForm):
         'nit',
         )
 
+#Funcion Para Validar que todos los datos del formulario HTML esten correctos
     def save(self):
-        #data = self.cleaned_data
-        #n_representante = self.cleaned_data.get("n_representante")
+
+#Validando datos y creando el objecto cliente.objects.create()
 
         n_representante = self.cleaned_data['n_representante']
         nombre_comercial = self.cleaned_data['nombre_comercial']

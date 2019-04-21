@@ -1,8 +1,9 @@
 from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.views.generic import FormView , CreateView , TemplateView , DetailView , DeleteView , UpdateView , ListView
 from django.urls import reverse , reverse_lazy
-from django.db.models import Q  , Sum
+from django.db.models import Q  , Sum , Avg , Count
 from django.contrib.auth import get_user_model
+
 
 from pedidos.models import PedidoVentas , ItemPedido , Abono , TipoPago
 from productos.models import Producto
@@ -212,7 +213,8 @@ def search_despacho(request):
             Q(create_at__icontains=query)
             )
         results = ItemPedido.objects.filter(qset) #.distinct("producto__nombre")
-        cantidad = ItemPedido.objects.filter(qset)
+        cantidad = ItemPedido.objects.filter(qset).order_by('-cantidad').annotate(total=Count('cantidad'))
+        items = cantidad.filter(qset).annotate(total=Sum('cantidad'))
         # valor = 0
         # for cant in cantidad:
         #     items = cant.cantidad
@@ -221,7 +223,7 @@ def search_despacho(request):
         results = []
         items = []
         cantidad = []
-    return render_to_response("pedidos/search_despacho.html", {"results": results ,"query": query , "cantidad" : cantidad})
+    return render_to_response("pedidos/search_despacho.html", {"results": results ,"query": query , "cantidad" : cantidad , "items" : items})
 
 def search_estado_cuenta(request):
     query = request.GET.get('q' , '')
@@ -240,3 +242,18 @@ class PedidosHoy(ListView):
     model = PedidoVentas
     paginate_by = 10
     queryset = PedidoVentas.objects.filter(date=hoy).order_by('date')
+
+#Busqueda de cliente para pedidos
+def iniciar_pedido_widget(request):
+    query = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(nombre_comercial__icontains=query)
+            )
+        results = Cliente.objects.filter(qset)
+    else:
+        results = []
+    return render(request  ,"pedidos/iniciar_pedido.html", {"results": results ,"query": query })
+
+# class CreatePedidoWidget(CreateView):
+#     model = PedidoVentas

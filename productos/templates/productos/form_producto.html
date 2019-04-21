@@ -1,0 +1,38 @@
+{%extends 'productos/base.html' %}
+{%block title%}Agregar Producto{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">Agrega un producto!</h1>
+
+
+<div class="col-md-12">
+<br>
+<form action="{%url "crear_producto"%}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre del Producto</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre" placeholder="Agrega un nombre al producto" required=required>
+  </div>
+  <div class="media-body">
+      <h5 class="ml-4">Imagen del Produto</h5>
+      <p class="ml-4"><input type="file" name="picture"></p>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Codigo</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="codigo" placeholder="Codigo " required=required>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Precio Q.</label>
+    <input type="number" step=".001" class="form-control" id="exampleFormControlInput1" name="precio" placeholder="Precio Q.">
+  </div>
+
+  <label for="exampleFormControlSelect1">Categoria del Producto</label>
+  <select class="form-control" id="exampleFormControlSelect1" name="categoria">
+    {%for categoria in categorias%}
+    <option value="{{categoria.pk}}" >{{categoria.nombre}}</option>
+    {%endfor%}
+  </select>
+    <button align="center" type="submit" class="btn btn-primary btn-block mt-5">Agregar al Catalogo</button>
+
+{%endblock content%}

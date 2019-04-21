@@ -32,6 +32,8 @@
             Pedidos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+              <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido(Nuevo)</a>
               <a class="dropdown-item" href="{%url "search_pedido"%}">Buscar Por Fecha</a>
               <a class="dropdown-item" href="{%url "iniciar_pedido"%}">Iniciar Un Pedido</a>
               <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Pedidos Generales</a>
@@ -45,6 +47,15 @@
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Por Cliente</a>
         <a class="dropdown-item" href="{%url "ver_saldo"%}">Saldos Generales</a>
+      </div>
+    </li>
+    <li class="nav-item active dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Producto
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{%url "crear_producto"%}">Agregar Producto</a>
+        <a class="dropdown-item" href="{%url "index"%}">Historial de Productos</a>
       </div>
     </li>
     <li class="nav-item">

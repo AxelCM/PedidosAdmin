@@ -1,7 +1,10 @@
+#imports from Django
 from django.urls import path
 
+#imports from Views of Models
 from clientes.views import Register , ClientesView  , ClienteDetailView , UpdateClient , search_cliente
 
+#Paths de Registro de URLS
 urlpatterns = [
     path('registrar/cliente/' , Register.as_view() , name='register_client'),
     path('detail/clientes/<int:id_cliente>/' , ClienteDetailView.as_view() , name='detail_client'),

@@ -1,0 +1,12 @@
+<div class="alert alert-success" role="alert">
+  <h4>Comenzando Pedido...</h4>Deseas iniciar un pedido a {{search.nombre_comercial}} ?
+</div>
+<form class="form-inline" action="{%url "iniciar_pedido"%}" method="POST" >
+  {% csrf_token %}
+  <div class="form-group">
+    <div class="form-group">
+      <input type="hidden" class="form-control" id="exampleFormControlInput1" name="cliente" value="{{search.id_cliente}}">
+    </div>
+</div>
+<button type="submit" class="btn btn-primary btn-block mt-5">Iniciar Pedido</button>
+</form>

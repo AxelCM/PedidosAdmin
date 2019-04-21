@@ -3,11 +3,12 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import render , get_object_or_404 , render_to_response
-from django.views.generic import View , TemplateView , DetailView
+from django.urls import reverse , reverse_lazy
+from django.views.generic import View , TemplateView , DetailView , CreateView
 
 #from models
 from productos.models import Producto , Categoria
-
+from productos.forms import ProductoForm
 
 #from others
 from rest_framework.views import APIView
@@ -66,3 +67,26 @@ class ProductoDetailView(DetailView):
 def view_product(request, id_producto):
     productos = Producto.objects.get(pk=id_producto)
     return render(request, 'productos/product.html', {'productos': productos })
+
+class CreateProduct(CreateView):
+
+    template_name = 'productos/form_producto.html'
+    form_class = ProductoForm
+    success_url = reverse_lazy('catalogo')
+
+    def get_context_data(self , *args , **kwargs):
+        categorias = Categoria.objects.all()
+        return {'categorias' : categorias}
+
+
+def search_producto(request):
+    query = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(nombre__icontains=query)
+            | Q(codigo__icontains=query)
+            )
+        results = Producto.objects.filter(qset)
+    else:
+        results = []
+    return render_to_response("productos/search_producto.html", {"results": results ,"query": query })

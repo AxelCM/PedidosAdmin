@@ -63,7 +63,7 @@
 					{% for cant in cantidad  %}
 				</tr>
 				</thead>
-      <tr><td>{{cant.cantidad}}</td></tr>
+      <tr><td>{{cant.cantidad}} , {{cant.total}}</td></tr>
 			{%endfor%}
     </table>
 </div>
@@ -73,6 +73,12 @@
 <div class="alert alert-warning" role="alert">
   <h4>Lo Sentimos</h4> No se encontraron despachos para la fecha <b>"{{query}}"</b>
 </div>
+
+{%for item in items%}
+<p>que onda</p>
+<p>{{item.nombre}}</p> + <p>{{item.cantidad}}</p>
+{%endfor%}
+
 {% endif %}
 {% endif %}
 
