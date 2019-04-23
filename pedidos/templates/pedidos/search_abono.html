@@ -10,11 +10,11 @@
 {%endblock search_bar%}
 
 {%block content %}
-<h1 align='center'>Orden de Despacho General</h1>
-<h3>Filtrar por fecha:</h3>
+<h1 align='center'>Busqueda de Abonos</h1>
+<h3>Buscar un Abono</h3>
 <br>
 <form class="form-inline" action="." method="GET" autocomplete="off">
-	<input class="form-control mr-sm-2" type="date"  name="q" size=50% value="{{ query|escape }}">
+	<input class="form-control mr-sm-2" type="text"  name="q"  value="{{ query|escape }}" placeholder="Buscar por cliente, cantidad , tipo de pago, fecha">
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 </form>
 
@@ -28,15 +28,21 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">PRODUCTO</th>
-      <th scope="col">CANTIDAD TOTAL</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Fecha del Pago</th>
+			<th scope="col">Monto</th>
+			<th scope="col">Metodo de Pago</th>
+			<th scope="col">Observaciones</th>
       {% for search in results  %}
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>{{search.producto}}</td>
-      <td>{{search.itemtotal_despacho}}</td>
+      <td>{{search.id_pedido}}</td>
+      <td>{{search.fecha}}</td>
+			<td>{{search.cantidad}}</td>
+			<td>{{search.tipo_pago}}</td>
+			<td>{{search.observaciones}}</td>
     </tr>
 {%endfor%}
 </tbody>

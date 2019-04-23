@@ -1,0 +1,76 @@
+{%extends 'productos/base.html' %}
+{%block title%}Lista de Clientes{%endblock title%}
+{%load static%}
+
+{%block navbar%}
+
+{%endblock navbar%}
+
+{%block content %}
+<h1 align="center">Listado De Productos</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">CODIGO</th>
+      <th scope="col"></th>
+      <th scope="col">NOMBRE</th>
+      <th scope="col">PRECIO</th>
+      <th scope="col">CATEGORIA</th>
+      <th scope="col">+</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for producto in producto_list%}
+    <tr>
+      <td>{{producto.id_producto}}</td>
+      <td>{{producto.codigo}}</td>
+      <td>
+      {% if producto.picture %}
+        <img src="{{producto.picture.url}}" class="rounded-circle" height="50" />
+      {% else%}
+        <img src="{% static 'productos/img/default.png' %}" class="rounded-circle" height="50" />
+      {% endif %}
+      </td>
+      <td>{{producto.nombre}}</td>
+      <td>{{producto.precio}}</td>
+      <td>{{producto.categoria}}</td>
+      <td>
+          <a  class="btn btn-primary" href="{%url "detail_producto" producto.id_producto%}">+</a>
+          <a class="btn btn-outline-secondary" href="{%url "editar_producto" producto.id_producto%}">E</a>
+      </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+<p>Mostrando 25 resultados por pagina.</p>
+<br>
+<div class="col col-md-12">
+<nav aria-label="Page navigation example">
+<ul class="pagination">
+<li class="page-item">
+  {% if page_obj.has_previous %}
+  <a class="page-link" href="{% url 'catalogo_list' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+    <span aria-hidden="true">Ant &laquo;</span>
+    <span class="sr-only">Ant.</span>
+  </a>
+
+{% else %}
+  <span> <a class='btn btn-disable'>Ant</a> </span>
+{% endif %}
+
+  <li class="page-item">
+    {% if page_obj.has_next %}
+    <a class="page-link" href="{% url 'catalogo_list' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
+      <span aria-hidden="true">Sig. &raquo;</span>
+      <span class="sr-only">Sig.</span>
+    </a>
+
+{% else %}
+  <span><a class='btn btn-disable'>Sig</a></span>
+{% endif %}
+</li>
+</div>
+
+{%endblock content%}

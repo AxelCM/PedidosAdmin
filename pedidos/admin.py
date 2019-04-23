@@ -14,7 +14,7 @@ class PedidoVentasAdmin(admin.ModelAdmin):
 class ItemPedidoAdmin(admin.ModelAdmin):
     raw_id_fields = ("producto",)
     search_fields = ['id_producto']
-    list_display = ['id_pedido','cantidad', 'producto' ,'fecha', 'sub_total' , 'itemtotal']
+    list_display = ['id_pedido','cantidad', 'producto' ,'fecha', 'sub_total' , 'itemtotal' , 'itemtotal_despacho']
 
 class AbonoAdmin(admin.ModelAdmin):
     list_display = ['id_abono' , 'id_pedido' , 'fecha' , 'totalpedido', 'cantidad' ,  'Saldo']

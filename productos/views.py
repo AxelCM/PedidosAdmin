@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.urls import reverse , reverse_lazy
-from django.views.generic import View , TemplateView , DetailView , CreateView
+from django.views.generic import View , TemplateView , DetailView , CreateView , ListView , UpdateView
 
 #from models
 from productos.models import Producto , Categoria
@@ -16,7 +16,12 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
+class CatalogoList(ListView):
+    model = Producto
 
+    template_name = 'productos/catalogo_list.html'
+    paginate_by = 25
+    queryset = productos = Producto.objects.all().order_by("nombre")
 
 class CatalogoView(TemplateView):
     template_name = 'productos/catalogo.html'
@@ -26,6 +31,16 @@ class CatalogoView(TemplateView):
         productos = Producto.objects.all()
         categorias = Categoria.objects.all().order_by('nombre')
         return {'productos': productos , 'categorias': categorias}
+
+class UpdateProducto(UpdateView):
+    model = Producto
+    fields = ['nombre',
+            'picture',
+            'codigo',
+            'precio',
+        ]
+    success_url = reverse_lazy('catalogo_list')
+    template_name = 'productos/form_update_producto.html'
 
 class HomeView(View):
     def get(self , request , *args , **kwargs):

@@ -1,0 +1,56 @@
+{%extends 'productos/base.html' %}
+{%block title%}Agregar Producto{%endblock title%}
+{%load static%}
+
+{%block content %}
+<h1 align="center">Editar Producto</h1>
+<div class="alert alert-warning" role="alert">
+  <h4>Advertencia</h4>Estas a punto de Modificar el producto : {{object.nombre}}
+</div>
+
+
+<div class="col-md-12">
+<br>
+
+  <form action="{% url 'editar_producto' object.id_producto %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre del Producto</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre" value="{{object.nombre}}" required=required>
+  </div>
+  <div class="media">
+      {% if object.picture %}
+          <img src="{{ object.picture.url }}" class="rounded-circle" height="50" />
+      {% else%}
+          <img src="{% static 'productos/img/default.png' %}" class="rounded-circle" height="50" />
+      {% endif %}
+      <div class="media-body">
+          <h5 class="ml-4">Actualizar Foto del Producto</h5>
+          <p class="ml-4"><input type="file"  name="picture"></p>
+      </div>
+  </div>
+  {% for error in form.picture.errors %}
+  <div class="alert alert-danger">
+      <b>Picture: </b>{{ error }}
+  </div>
+  {% endfor %}
+
+
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Codigo</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="codigo" value="{{object.codigo}}" required=required>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Precio Q.</label>
+    <input type="number" step="0.01" class="form-control" id="exampleFormControlInput1" name="precio" placeholder="{{object.precio}}" required=required>
+  </div>
+
+  <!-- <label for="exampleFormControlSelect1">Categoria del Producto</label>
+  <select class="form-control" id="exampleFormControlSelect1" value="{{object.categoria}}" name="categoria">
+    {%for categoria in categorias%}
+    <option value="{{categoria.pk}}" >{{categoria.nombre}}</option>
+    {%endfor%}
+  </select> -->
+    <button align="center" type="submit" class="btn btn-success btn-block mt-5">Guardar</button>
+
+{%endblock content%}

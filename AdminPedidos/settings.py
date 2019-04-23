@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'clientes',
     'rest_framework',
     'tempus_dominus',
+    'easy_pdf',
 ]
 
 MIDDLEWARE = [

@@ -28,20 +28,22 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">PRODUCTO</th>
-      <th scope="col">CANTIDAD TOTAL</th>
+      <th scope="col">Pedido</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Cantidad</th>
       {% for search in results  %}
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td>{{search.id_pedido}}</td>
       <td>{{search.producto}}</td>
-      <td>{{search.itemtotal_despacho}}</td>
+      <td>{{search.cantidad}}</td>
     </tr>
 {%endfor%}
 </tbody>
 </table>
-
+<!--
 
 <div style="float:left; " >
     <table class="table table-striped">
@@ -66,7 +68,7 @@
       <tr><td>{{cant.cantidad}} , {{cant.total}}</td></tr>
 			{%endfor%}
     </table>
-</div>
+</div> -->
 
 {% else %}
 <br>

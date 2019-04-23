@@ -24,7 +24,6 @@ from pedidos.views import PedidoDetailView
 urlpatterns = [
     url('home' , HomeView.as_view() , name='home'),
     url('detail/pedido/<int:id_pedido>/', PedidoDetailView.as_view() , name='detail_pedido'),
-    url('catalogo' , CatalogoView.as_view() , name='catalogo'),
     url('api/chart/data' , CharData.as_view()),
     url('api/data' , get_data , name='api-data'),
     #url('detail/<int:pk>/' , view_product , name='detail_product'),

@@ -55,11 +55,32 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{%url "crear_producto"%}">Agregar Producto</a>
-        <a class="dropdown-item" href="{%url "index"%}">Historial de Productos</a>
+        <a class="dropdown-item" href="{%url "catalogo_list"%}">Listado de Productos</a>
       </div>
     </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="{%url "search_despacho"%}">Despacho</a>
+    <li class="nav-item active dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Reportes
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{%url "search_pedido"%}">Pedido</a>
+      </div>
+    </li>
+    <li class="nav-item active dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Despacho
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{%url "despacho_pedido"%}">Por Fecha</a>
+      </div>
+    </li>
+    <li class="nav-item active dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Abonos
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{%url "search_abono"%}">Buscar Abono</a>
+      </div>
     </li>
     <li class="nav-item">
       <a class="nav-link active" href="{%url "ingresar_abono"%}">Abonos</a>

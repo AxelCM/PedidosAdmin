@@ -5,7 +5,8 @@ from productos.views import ProductoDetailView
 from pedidos.views import (IndexView, CreatePedido , PedidoView , PedidoDetailView ,
 AddProducto , RemoveProducto , UpdateProduct ,abonoNew , AddAbono , SaldosViews,
 AbonoAdd , DepachoDiarioView , AbonarView , UpdateAbono , AbonoList , search_pedido, search_producto,
-search_despacho , PedidosHoy , search_estado_cuenta , iniciar_pedido_widget
+search_despacho , PedidosHoy , search_estado_cuenta , iniciar_pedido_widget ,
+PDFPedidoDetailView , despachoYPedidos , search_abono
 )
 
 urlpatterns = [
@@ -30,7 +31,11 @@ urlpatterns = [
     path('search/producto/', search_producto , name="search_producto"),
     path('search/despacho/', search_despacho , name="search_despacho"),
     path('search/estado_cuenta/', search_estado_cuenta , name="search_estado_cuenta"),
-    path('iniciar/pedido/' , iniciar_pedido_widget , name="init_pedido")
+    path('iniciar/pedido/' , iniciar_pedido_widget , name="init_pedido"),
+    #path('reporte/pedido/' , PedidoPDF.as_view() , name="reporte_pedido"),
+    path('reporte/pedido/<int:id_pedido>/' , PDFPedidoDetailView.as_view() , name="reporte_pedido"),
+    path('search/pedido/despachos/' , despachoYPedidos , name="despacho_pedido"),
+    path('search/abono/' , search_abono  , name="search_abono")
 
 
 ]

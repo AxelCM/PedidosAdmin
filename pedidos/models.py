@@ -86,10 +86,21 @@ class ItemPedido(models.Model):
         return subtotal
 
     def itemtotal(self):
-        items = ItemPedido.objects.filter(producto=self.producto)
+        items = ItemPedido.objects.filter(id_pedido=self.id_pedido)
         total = 0
         for item in items:
             cant = item.cantidad
+            total += cant
+        return total
+
+
+    def itemtotal_despacho(self):
+        hoy = date.today()
+        items = ItemPedido.objects.filter(create_at=hoy)
+        productos = items.filter(producto__id_producto = self.producto.id_producto)
+        total = 0
+        for producto in productos:
+            cant = producto.cantidad
             total += cant
         return total
 

@@ -1,16 +1,23 @@
+#Imports from Django
 from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.views.generic import FormView , CreateView , TemplateView , DetailView , DeleteView , UpdateView , ListView
 from django.urls import reverse , reverse_lazy
-from django.db.models import Q  , Sum , Avg , Count
+from django.db.models import Q  , Sum , Avg , Count , FilteredRelation
 from django.contrib.auth import get_user_model
 
-
+#Imports from Models
 from pedidos.models import PedidoVentas , ItemPedido , Abono , TipoPago
 from productos.models import Producto
 from clientes.models import Cliente
+
+#imports from Forms
 from pedidos.forms import PedidoForm , AddProductoForm , AbonoForm , AbonarForm
 
+#imports from python and Anothers
 from datetime import *
+from easy_pdf.views import PDFTemplateView , PDFTemplateResponseMixin
+
+
 
 User = get_user_model()
 
@@ -212,8 +219,8 @@ def search_despacho(request):
         qset = (
             Q(create_at__icontains=query)
             )
-        results = ItemPedido.objects.filter(qset) #.distinct("producto__nombre")
-        cantidad = ItemPedido.objects.filter(qset).order_by('-cantidad').annotate(total=Count('cantidad'))
+        results = ItemPedido.objects.filter(qset).order_by('producto__nombre').distinct("producto__nombre")
+        cantidad = ItemPedido.objects.filter(qset).order_by('producto').annotate(total=Sum('cantidad'))
         items = cantidad.filter(qset).annotate(total=Sum('cantidad'))
         # valor = 0
         # for cant in cantidad:
@@ -255,5 +262,71 @@ def iniciar_pedido_widget(request):
         results = []
     return render(request  ,"pedidos/iniciar_pedido.html", {"results": results ,"query": query })
 
-# class CreatePedidoWidget(CreateView):
-#     model = PedidoVentas
+# class PedidoPDF(PDFTemplateView):
+#     template_name = 'pedidos/reporte_pedido.html'
+#     download_filename = 'pedido.pdf'
+#
+#     def get_context_data(self , *args , **kwargs):
+#         pedido = PedidoVentas.objects.filter(id_pedido=1)
+#         productos = Producto.objects.all()
+#         return {"pedido" : pedido , "productos" : productos}
+
+class PDFPedidoDetailView(PDFTemplateResponseMixin , DetailView):
+    """User detail view."""
+
+    template_name = 'pedidos/reporte_pedido.html'
+    model = PedidoVentas
+    slug_field = 'id_pedido'
+    slug_url_kwarg = 'id_pedido'
+    queryset = PedidoVentas.objects.all()
+    context_object_name = 'pedido'
+
+    def get_context_data(self, **kwargs):
+        # context = super().get_context_data(**kwargs)
+        id_pedidos = self.get_object()
+        # context['productos'] = Producto.objects.all()
+        # context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
+        # context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
+        return super(PDFPedidoDetailView, self ).get_context_data(
+            pagesize='Letter',
+            productos = Producto.objects.all(),
+            items = ItemPedido.objects.filter(id_pedido=id_pedidos),
+            **kwargs
+        )
+
+    # def get_context_data(self, **kwargs):
+    #     """Add user's posts to context."""
+    #     context = super().get_context_data(**kwargs)
+    #     id_pedidos = self.get_object()
+    #     context['productos'] = Producto.objects.all()
+    #     context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
+    #     context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
+    #     return context
+
+def despachoYPedidos(request):
+    query = request.GET.get('q' , '')
+    q = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(create_at__icontains=query)
+            )
+        results = ItemPedido.objects.filter(qset).order_by('id_pedido')
+    else:
+        results = []
+    return render(request  ,"pedidos/despacho_pedido.html", {"results": results ,"query": query , })
+
+def search_abono(request):
+    query = request.GET.get('q' , '')
+    q = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(id_abono__icontains=query)
+            | Q(cantidad__icontains=query)
+            | Q(id_pedido=query)
+
+
+            )
+        results = Abono.objects.filter(qset)
+    else:
+        results = []
+    return render(request  ,"pedidos/search_abono.html", {"results": results ,"query": query , })

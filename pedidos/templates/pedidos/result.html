@@ -39,13 +39,24 @@
   <tbody>
 		{% for search in results  %}
     <tr>
-      <td>{{search.id_pedido}}</td>
-      <td>{{search.cliente.nombre_comercial}}</td>
-      <td>{{search.date}}</td>
-      <td>{{search.conteoItems}}</td>
-      <td>Q.{{search.totalpedido}}</td>
-      <td>Q.{{search.Saldo}}</td>
-      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" search.id_pedido%}">+</a></td>
+			{%if search.conteoItems == 0%}
+      <td class="bg-warning"><b>{{search.id_pedido}}</b></td>
+      <td class="bg-warning">{{search.cliente.nombre_comercial}}</td>
+      <td class="bg-warning">{{search.date}}</td>
+      <td class="bg-warning">{{search.conteoItems}}</td>
+      <td class="bg-warning">Q.{{search.totalpedido}}</td>
+      <td class="bg-warning">Q.{{search.Saldo}}</td>
+		{%else%}
+		<td >{{search.id_pedido}}</td>
+		<td>{{search.cliente.nombre_comercial}}</td>
+		<td>{{search.date}}</td>
+		<td>{{search.conteoItems}}</td>
+		<td>Q.{{search.totalpedido}}</td>
+		<td>Q.{{search.Saldo}}</td>
+		{%endif%}
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" search.id_pedido%}">+</a>
+				<a class="btn btn-outline-secondary" href="{%url "reporte_pedido" search.id_pedido%}">R</a>
+			</td>
     </tr>
 {%endfor%}
 </tbody>
