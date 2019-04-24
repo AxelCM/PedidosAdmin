@@ -161,8 +161,9 @@ class DepachoDiarioView(TemplateView):
         items = ItemPedido.objects.values('producto__nombre').distinct().order_by('producto__nombre')
         pd_hoy = ItemPedido.objects.filter(fecha=hoy).order_by("producto__nombre").distinct("producto__nombre")
 
-
         return {'productos' : productos , 'items' : items , 'pd_hoy' : pd_hoy , 'hoy':hoy}
+
+
 
 class AbonarView(CreateView):
     template_name = 'pedidos/form_abono_2.html'
@@ -238,7 +239,10 @@ def search_estado_cuenta(request):
         qset = (
             Q(cliente__nombre_comercial__icontains=query)
             )
-        results = PedidoVentas.objects.filter(qset)
+        qset2 = (
+            Q(id_pedido__cliente__nombre_comercial__icontains=query)
+            )
+        results = PedidoVentas.objects.filter(qset).order_by('-date')
     else:
         results = []
     return render_to_response("pedidos/estados_de_cuenta.html", {"results": results ,"query": query })
@@ -294,14 +298,58 @@ class PDFPedidoDetailView(PDFTemplateResponseMixin , DetailView):
             **kwargs
         )
 
-    # def get_context_data(self, **kwargs):
-    #     """Add user's posts to context."""
-    #     context = super().get_context_data(**kwargs)
-    #     id_pedidos = self.get_object()
-    #     context['productos'] = Producto.objects.all()
-    #     context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
-    #     context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
-    #     return context
+class PDFPedidoAbonosDetailView(PDFTemplateResponseMixin , DetailView):
+
+    template_name = 'pedidos/reporte_pedido_abonos.html'
+    model = PedidoVentas
+    slug_field = 'id_pedido'
+    slug_url_kwarg = 'id_pedido'
+    queryset = PedidoVentas.objects.all()
+    context_object_name = 'pedido'
+
+    def get_context_data(self, **kwargs):
+        # context = super().get_context_data(**kwargs)
+        id_pedidos = self.get_object()
+        # context['productos'] = Producto.objects.all()
+        # context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
+        # context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
+        return super(PDFPedidoAbonosDetailView, self ).get_context_data(
+            pagesize='Letter',
+            productos = Producto.objects.all(),
+            abonos = Abono.objects.filter(id_pedido=id_pedidos),
+            **kwargs
+        )
+
+class PDFDepachoDiarioView(PDFTemplateResponseMixin,TemplateView):
+    template_name = 'pedidos/reporte_despacho.html'
+    queryset = PedidoVentas.objects.all()
+
+    def get_context_data(self , *args , **kwargs):
+        fpedido_hoy = date.today()
+        fitems_hoy = datetime.today()
+        productos = ItemPedido.objects.all().order_by("producto__nombre").distinct("producto__nombre")
+        #items = ItemPedido.objects.values('producto__nombre').distinct().order_by('producto__nombre')
+        pedidos = PedidoVentas.objects.filter(date=fpedido_hoy).order_by('cliente')
+        pd_hoy = ItemPedido.objects.filter(create_at=fitems_hoy).order_by("-id_pedido")
+
+        return {'productos' : productos , 'pedidos' : pedidos , 'pd_hoy' : pd_hoy , 'hoy':fpedido_hoy , 'fecha' : fitems_hoy}
+
+
+
+def search_reporte_pedidos_abonos(request):
+    query = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(cliente__nombre_comercial__icontains=query)
+            )
+        qset2 = (
+            Q(id_pedido__cliente__nombre_comercial__icontains=query)
+            )
+        results = PedidoVentas.objects.filter(qset).order_by('-date')
+    else:
+        results = []
+    return render_to_response("pedidos/search_reporte_pedidos_abonos.html", {"results": results ,"query": query })
+
 
 def despachoYPedidos(request):
     query = request.GET.get('q' , '')
@@ -310,7 +358,7 @@ def despachoYPedidos(request):
         qset = (
             Q(create_at__icontains=query)
             )
-        results = ItemPedido.objects.filter(qset).order_by('id_pedido')
+        results = ItemPedido.objects.filter(qset).order_by('-id_pedido')
     else:
         results = []
     return render(request  ,"pedidos/despacho_pedido.html", {"results": results ,"query": query , })
@@ -320,13 +368,26 @@ def search_abono(request):
     q = request.GET.get('q' , '')
     if query:
         qset = (
-            Q(id_abono__icontains=query)
+            Q(id_pedido__cliente__nombre_comercial__icontains=query)
+            |Q(tipo_pago__tipo_pago__icontains=query)
             | Q(cantidad__icontains=query)
-            | Q(id_pedido=query)
 
 
             )
-        results = Abono.objects.filter(qset)
+        results = Abono.objects.filter(qset).order_by('-fecha')
     else:
         results = []
     return render(request  ,"pedidos/search_abono.html", {"results": results ,"query": query , })
+
+def iniciar_abono_widget(request):
+    query = request.GET.get('q' , '')
+    tipos = TipoPago.objects.all()
+    if query:
+        qset = (
+            Q(cliente__nombre_comercial__icontains=query)
+            )
+        results = PedidoVentas.objects.filter(qset)
+    else:
+        results = []
+        data = []
+    return render(request  ,"pedidos/iniciar_abono.html", {"results": results ,"query": query , 'tipos_pago' : tipos })

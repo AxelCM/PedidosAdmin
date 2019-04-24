@@ -11,10 +11,10 @@
 
 {%block content %}
 <h1 align='center'>Busqueda de Abonos</h1>
-<h3>Buscar un Abono</h3>
+<h3>Buscar</h3>
 <br>
 <form class="form-inline" action="." method="GET" autocomplete="off">
-	<input class="form-control mr-sm-2" type="text"  name="q"  value="{{ query|escape }}" placeholder="Buscar por cliente, cantidad , tipo de pago, fecha">
+	<input class="form-control mr-sm-2" type="text" size="55%" name="q"  value="{{ query|escape }}" placeholder="Buscar por cliente, cantidad , tipo de pago, fecha">
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 </form>
 
@@ -40,39 +40,13 @@
     <tr>
       <td>{{search.id_pedido}}</td>
       <td>{{search.fecha}}</td>
-			<td>{{search.cantidad}}</td>
+			<td>Q.{{search.cantidad}}</td>
 			<td>{{search.tipo_pago}}</td>
 			<td>{{search.observaciones}}</td>
     </tr>
 {%endfor%}
 </tbody>
 </table>
-
-
-<div style="float:left; " >
-    <table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">PRODUCTO</th>
-					{% for search in results  %}
-				</tr>
-			</thead>
-      <tr><td>{{search.producto}}</td></tr>
-			{%endfor%}
-    </table>
-</div>
-<div style="float:left;" >
-    <table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">CANTIDAD TOTAL</th>
-					{% for cant in cantidad  %}
-				</tr>
-				</thead>
-      <tr><td>{{cant.cantidad}} , {{cant.total}}</td></tr>
-			{%endfor%}
-    </table>
-</div>
 
 {% else %}
 <br>

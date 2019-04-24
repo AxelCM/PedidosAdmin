@@ -18,16 +18,15 @@
   </tr>
 </table>
 </div>
-
 <main role="main">
-  <br>
+<br>
     <table align="left">
       <thead>
         <tr>
           <th align="left">NO. PEDIDO</th>
           <th scope="col">FECHA DEL PEDIDO</th>
           <th scope="col">CLIENTE</th>
-          <th>TOTAL</th>
+          <th>TOTAL PEDIDO</th>
         </tr>
         </thead>
         <tr align="center">
@@ -40,47 +39,67 @@
         </table>
 
         <div class="col-md-12">
-          <h2>Detalle de Articulos</h2>
+          <h2 align="center">ABONOS REALIZADOS</h2>
           <table>
             <thead>
               <tr>
-                <th scope="col">CANTIDAD</th>
-                <th align="left">PRODUCTO</th>
-                <th scope="col">PRECIO UNIT</th>
-                <th scope="col">SUBTOTAL</th>
+                {%if  abonos%}
+                <th scope="col">FECHA DEL PAGO</th>
+                <th align="center">Q. MONTO</th>
+                <th align="left">METODO </th>
+                <th align="left">OBSERVACIONES</th>
+                <th scope="col"> </th>
+                {%endif%}
             </thead>
             <tbody>
               <tr>
-                {%for item in items%}
+                {%for abono in abonos%}
 
-                <td align="center" width="auto">{{item.cantidad}}</td>
-                <td align="left" width="auto">{{item.producto}}</td>
-                <td align="center" width="auto">Q.{{item.producto.precio}}</td>
-                <td align="center" width="auto">Q.{{item.sub_total}}</td>
-                <!-- <td>Q.{{item.precio}}</td> -->
+                <td align="center" width="auto">{{abono.fecha}}</td>
+                <td align="center" width="auto">{{abono.cantidad}}</td>
+                <td align="left" width="auto">{{abono.tipo_pago}}</td>
+                <td align="left" width="auto">{{abono.observaciones}}</td>
+                <td> </td>
               </tr>
+              {%empty%}
+              <h1 style="color:blue;" align="center">NO HAY NINGUN ABONO SOBRE ESTE PEDIDO</h1>
               {%endfor%}
               <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td align="center">----------------------</td>
+                <td align="center"></td>
               </tr>
               <tr>
                 <td></td>
                 <td></td>
-                <td align="right">TOTAL:</td>
-                <td align="center"><b>Q.{{pedido.totalpedido}}</b></td>
+                <!-- <td align="right">TOTAL:</td>
+                <td align="center"><b>Q.{{pedido.totalpedido}}</b></td> -->
               </tr>
             </tbody>
           </table>
           <!-- <h3 align="right">TOTAL: Q.{{pedido.totalpedido}}</h3> -->
           <!-- <h4 align="right" style="color:red;">-Q.{{pedido.Abonado}}</h4> -->
-          <h2 align="center">TOTAL: Q.{{pedido.totalpedido}}</h2>
-          <p align="center">Gracias por su preferencia</p>
+          <h2 style="color:red;" align="center">TOTAL ABONADO: Q.{{pedido.Abonado}}</h2>
+          <h2 color="red" align="center">SALDO PENDIENTE: Q.{{pedido.Saldo}}</h2>
             <!-- <p><b>Producto:  </b>{{productos.nombre}}</p>
             <p><b>Precio:  </b>Q.{{productos.precio}}</p>
             <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
             <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
         </div>
+    <!-- {%if abonos%}
+    <h2>TOTAL ABONADO: {{pedido.Abonado}}</h2>
+    {%endif%}
+  <h4>Historial de Abonos</h4>
+  {%for abono in abonos%}
+  <p> <b>Fecha:</b> {{abono.fecha}} por Q.{{abono.cantidad}} en {{abono.tipo_pago}} <a href="{%url "update_abono" abono.pk%}">Editar</a></p>
+  {%empty%}
+  <br>
+  <div class="alert alert-warning" role="alert">
+    <h4>Lo Sentimos!</h4> No hay Abonos de este pedido!
+  </div>
+  {%endfor%}
+  <br> -->
+
+
 {% endblock %}

@@ -6,7 +6,8 @@ from pedidos.views import (IndexView, CreatePedido , PedidoView , PedidoDetailVi
 AddProducto , RemoveProducto , UpdateProduct ,abonoNew , AddAbono , SaldosViews,
 AbonoAdd , DepachoDiarioView , AbonarView , UpdateAbono , AbonoList , search_pedido, search_producto,
 search_despacho , PedidosHoy , search_estado_cuenta , iniciar_pedido_widget ,
-PDFPedidoDetailView , despachoYPedidos , search_abono
+PDFPedidoDetailView , despachoYPedidos , search_abono , iniciar_abono_widget,
+search_reporte_pedidos_abonos , PDFPedidoAbonosDetailView , PDFDepachoDiarioView ,
 )
 
 urlpatterns = [
@@ -32,10 +33,15 @@ urlpatterns = [
     path('search/despacho/', search_despacho , name="search_despacho"),
     path('search/estado_cuenta/', search_estado_cuenta , name="search_estado_cuenta"),
     path('iniciar/pedido/' , iniciar_pedido_widget , name="init_pedido"),
+    path('abonar/' , iniciar_abono_widget , name="init_abono"),
     #path('reporte/pedido/' , PedidoPDF.as_view() , name="reporte_pedido"),
     path('reporte/pedido/<int:id_pedido>/' , PDFPedidoDetailView.as_view() , name="reporte_pedido"),
     path('search/pedido/despachos/' , despachoYPedidos , name="despacho_pedido"),
-    path('search/abono/' , search_abono  , name="search_abono")
+    path('search/abono/' , search_abono  , name="search_abono"),
+    path('search/reporte/pedidos/abonos/' , search_reporte_pedidos_abonos , name="search_reporte_pedido_abonos"),
+    path('reporte/pedido/abonos/<int:id_pedido>/' , PDFPedidoAbonosDetailView.as_view() , name="reporte_pedido_abonos"),
+    path('reporte/pedido/despacho/hoy/' , PDFDepachoDiarioView.as_view() , name='reporte_pedidos_hoy'),
+
 
 
 ]

@@ -10,7 +10,7 @@
 {%endblock search_bar%}
 
 {%block content %}
-<h1 align='center'>Pedidos Por Cliente</h1>
+<h1 align='center'>Buscar Cliente</h1>
 <br>
 <form class="form-inline" action="." method="GET" autocomplete="off">
 	<input class="form-control mr-sm-2" type="search" placeholder="Buscar por cliente"  name="q" size=50% value="{{ query|escape }}">
@@ -24,13 +24,12 @@
 
 
 <br><br>
-<p>Los resultados estan siendo ordenados por fecha mas reciente</p>
 <table class="table table-hover">
   <thead>
     <tr>
-			<th align="left">No. PEDIDO</th>
+			<th scope="col">No. PEDIDO</th>
       <th scope="col">CLIENTE</th>
-			<th scope="col">Fecha</th>
+			<th scope="col">FECHA</th>
       <th scope="col">MONTO</th>
       <th scope="col">SALDO ABONADO</th>
       <th scope="col">SALDO PENDIENTE</th>
@@ -46,7 +45,7 @@
       <td>Q.{{search.totalpedido}}</td>
       <td>Q.{{search.Abonado}}</td>
       <td>Q.{{search.Saldo}}</td>
-      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" search.id_pedido%}">+</a></td>
+      <td><a class="btn btn-outline-secondary" href="{%url "reporte_pedido_abonos" search.id_pedido%}">R</a></td>
     </tr>
 {%endfor%}
 </tbody>

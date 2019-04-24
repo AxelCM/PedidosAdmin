@@ -1,5 +1,6 @@
-<div class="alert alert-success" role="alert">
-  <h4>Comenzando Pedido...</h4>Deseas iniciar un pedido a {{search.nombre_comercial}} ?
+<div class="alert alert-info" role="alert">
+  <h4>Deseas Iniciar un pedido a {{search.nombre_comercial}}?</h4>
+  Si el cliente no coincide con el deseado, busca de nuevo!
 </div>
 <form class="form-inline" action="{%url "iniciar_pedido"%}" method="POST" >
   {% csrf_token %}
@@ -8,5 +9,5 @@
       <input type="hidden" class="form-control" id="exampleFormControlInput1" name="cliente" value="{{search.id_cliente}}">
     </div>
 </div>
-<button type="submit" class="btn btn-primary btn-block mt-5">Iniciar Pedido</button>
+<button type="submit" class="btn btn-success btn-block mt-5">Iniciar Pedido</button>
 </form>

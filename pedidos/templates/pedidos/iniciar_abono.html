@@ -10,7 +10,7 @@
 {%endblock search_bar%}
 
 {%block content %}
-<h1>INICIAR UN PEDIDO DE COMPRA</h1>
+<h1>INGRESAR UN ABONO</h1>
 <br>
 <h3>Busca el cliente:</h3>
 <form class="form-inline" action="." method="GET" autocomplete="off">
@@ -21,11 +21,20 @@
 
 {% if query %}
   {% if results%}
-
+<h1>Estos son todos los pedidos con saldo de {{query}}</h1>
+Si el cliente no coincide con el deseado, busca de nuevo!
   {% for search in results  %}
 	<div class="col col-md-8">
 		<br>
-	{%include "pedidos/widget_form_pedido.html"%}
+		{%if search.Saldo  > 0 %}
+		<div class="alert alert-info" role="alert">
+		  <h4>Deseas Iniciar un Abono a {{search.cliente}} en el pedido No.{{search.id_pedido}} Q.{{search.totalpedido}} ?</h4>
+		  <b>Saldo Pendiente:Q.{{search.Saldo}}</b><br>
+		</div>
+		{%endif%}
+		{%if search.Saldo  > 0 %}
+			{%include "pedidos/widget_form_abono.html"%}
+		{%endif%}
 	</div>
 
   {%endfor%}

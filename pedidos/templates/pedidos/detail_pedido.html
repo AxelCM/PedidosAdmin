@@ -1,19 +1,10 @@
 {%extends 'productos/base.html' %}
 {%block title%}Detalle de Pedido{%endblock title%}
 
-{%block navbar%}
-<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
-  </ul>
-  <a class="btn btn-primary"  href="{%url "ver_pedidos"%}">Regresar a Pedidos</a>
-</div>
-{%endblock navbar%}
-
 
 {%block content %}
 <main role="main">
-  <h1>Detalle del Pedido</h1>
+  <h1 align="center">Detalle del Pedido</h1>
   <div class="col-md-12">
     <table class="table table-sm" align="center">
       <thead>
@@ -21,7 +12,6 @@
           <th scope="col">NO. PEDIDO</th>
           <th scope="col">FECHA DEL PEDIDO</th>
           <th scope="col">CLIENTE</th>
-          <th scope="col"> ACCION</th>
         </tr>
         </thead>
         <tbody>
@@ -29,10 +19,7 @@
           <td class="Numeric">{{pedido.id_pedido}}</td>
           <td>{{pedido.date}}</td>
           <td>{{pedido.cliente}}</td>
-          <td>
 
-            <a class="btn btn-outline-secondary"  href="{%url "agregar_producto"%}">Agregar Producto</a>
-          </td>
         </tr>
 
         </tbody>

@@ -1,0 +1,15 @@
+<form class="form-inline" action="{%url "ingresar_abono"%}" method="POST" >
+  {% csrf_token %}
+  <div class="form-group">
+    <div class="form-group">
+      <input type="hidden" class="form-control" id="exampleFormControlInput1" name="id_pedido" value="{{search.id_pedido}}">
+    </div>
+    <label for="exampleFormControlSelect1">Tipo de Pago</label>
+      <select class="form-control" id="exampleFormControlSelect1" name="tipo_pago">
+        {%for t_pago in tipos_pago%}
+        <option value="{{t_pago.pk}}" >{{t_pago.tipo_pago}}</option>
+        {%endfor%}
+      </select>
+      <button type="submit" class="btn btn-success btn-block mt-5">Ingresar Abono!</button>
+  </div>
+</form>

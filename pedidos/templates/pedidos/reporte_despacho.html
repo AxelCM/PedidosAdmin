@@ -1,0 +1,38 @@
+<p><b>Creado el : </b>{{fecha}}</p>
+{%block content %}
+  <h1 align="center">Despacho del Dia</h1>
+  <b>Fecha del Despacho:</b> {{hoy}}
+  <br>
+  <p>Esta es la lista de todos los articulos que deben de ser despachados</p>
+
+  <br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th align="left">Pedido</th>
+        <!-- <th></th> -->
+        <th align="center">Producto</th>
+        <th align="center">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for despacho in pd_hoy%}
+      <tr>
+        <td align="left">{{despacho.id_pedido}}</td>
+        <!-- <td></td> -->
+        <td align="left">{{despacho.producto}}</td>
+        <td align="center">{{despacho.cantidad}}</td>
+
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+<!--
+  <h3>SOLO DE HOY</h3>
+  {%for hoy in pd_hoy%}
+<p>{{hoy.producto}} , {{hoy.itemtotal}}</p>
+  {%endfor%} -->
+
+
+
+{%endblock content%}

@@ -13,7 +13,7 @@
 <form action="{%url "update_abono" object.pk%}" method="POST">
   {% csrf_token %}
   <div class="form-group">
-  <label for="exampleFormControlSelect1"><p><b>Cliente:</b> {{object.id_pedido}}</p>
+  <label for="exampleFormControlSelect1"><p><b>Cliente:</b> {{object.id_pedido}} - <b>Saldo:</b>Q.{{object.Saldo}}</p>
     <!-- Cantidad actual:
     <b>{{object.cantidad}}</b> -->
   </label>

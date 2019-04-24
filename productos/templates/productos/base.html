@@ -32,15 +32,15 @@
             Pedidos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-              <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido(Nuevo)</a>
-              <a class="dropdown-item" href="{%url "search_pedido"%}">Buscar Por Fecha</a>
-              <a class="dropdown-item" href="{%url "iniciar_pedido"%}">Iniciar Un Pedido</a>
-              <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Pedidos Generales</a>
               <a class="dropdown-item" href="{%url "pedidos_hoy"%}">Pedidos de Hoy</a>
+              <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido</a>
+              <a class="dropdown-item" href="{%url "search_pedido"%}">Buscar Por Fecha</a>
+                <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Buscar Por Cliente</a>
+              <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Todos</a>
+              <!-- <a class="dropdown-item" href="{%url "iniciar_pedido"%}">Iniciar Un Pedido</a> -->
             </div>
     </li>
-    <li class="nav-item active dropdown">
+    <!-- <li class="nav-item active dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Ver Saldos
       </a>
@@ -48,7 +48,7 @@
         <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Por Cliente</a>
         <a class="dropdown-item" href="{%url "ver_saldo"%}">Saldos Generales</a>
       </div>
-    </li>
+    </li> -->
     <li class="nav-item active dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Producto
@@ -63,7 +63,9 @@
         Reportes
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{%url "search_pedido"%}">Pedido</a>
+        <a class="dropdown-item" href="{%url "search_pedido"%}">Imprimir Pedido</a>
+        <a class="dropdown-item" href="{%url "search_reporte_pedido_abonos"%}">Imprimir Abonos de un Pedido</a>
+        <a class="dropdown-item" href="{%url "reporte_pedidos_hoy"%}">Imprimir Despacho de Hoy</a>
       </div>
     </li>
     <li class="nav-item active dropdown">
@@ -80,11 +82,12 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{%url "search_abono"%}">Buscar Abono</a>
+        <a class="dropdown-item" href="{%url "init_abono"%}">Ingresar Abono</a>
       </div>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link active" href="{%url "ingresar_abono"%}">Abonos</a>
-    </li>
+    </li> -->
     <li class="nav-item">
       <a class="nav-link active" href="{%url "catalogo"%}">Catalogo</a>
     </li>
