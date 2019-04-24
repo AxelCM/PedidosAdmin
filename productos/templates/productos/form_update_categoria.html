@@ -1,0 +1,23 @@
+{%extends 'productos/base.html' %}
+{%block title%}Editar{%endblock title%}
+{%load static%}
+
+{%block content %}
+<h1 align="center">Editar Categoria</h1>
+<div class="alert alert-warning" role="alert">
+  <h4>Advertencia</h4>Estas a punto de Modificar la categoria : {{object.nombre}}
+</div>
+
+
+<div class="col-md-12">
+<br>
+
+  <form action="{% url 'editar_categoria' object.pk %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre de la Categoria</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre" value="{{object.nombre}}" required=required>
+  </div>
+    <button align="center" type="submit" class="btn btn-success btn-block mt-5">Guardar</button>
+
+{%endblock content%}

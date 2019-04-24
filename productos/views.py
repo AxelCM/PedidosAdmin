@@ -4,11 +4,11 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.urls import reverse , reverse_lazy
-from django.views.generic import View , TemplateView , DetailView , CreateView , ListView , UpdateView
+from django.views.generic import View , TemplateView , DetailView , CreateView , ListView , UpdateView , DeleteView
 
 #from models
 from productos.models import Producto , Categoria
-from productos.forms import ProductoForm
+from productos.forms import ProductoForm , CategoriaForm
 
 #from others
 from rest_framework.views import APIView
@@ -93,6 +93,33 @@ class CreateProduct(CreateView):
         categorias = Categoria.objects.all()
         return {'categorias' : categorias}
 
+##############################################
+
+class CreateCategoria(CreateView):
+
+    template_name = 'productos/form_categoria.html'
+    form_class = CategoriaForm
+    success_url = reverse_lazy('index')
+
+class UpdateCategoria(UpdateView):
+    model = Categoria
+    fields = ['nombre',
+        ]
+    success_url = reverse_lazy('list_categoria')
+    template_name = 'productos/form_update_categoria.html'
+
+class RemoveCategoria(DeleteView):
+    model = Categoria
+    success_url = reverse_lazy('list_categoria')
+    template_name = 'productos/remove_categoria.html'
+
+class CategoriaList(ListView):
+    model = Categoria
+    template_name = 'productos/categoria_list.html'
+    paginate_by = 10
+    queryset = Categoria.objects.all().order_by("nombre")
+
+
 
 def search_producto(request):
     query = request.GET.get('q' , '')
@@ -105,3 +132,15 @@ def search_producto(request):
     else:
         results = []
     return render_to_response("productos/search_producto.html", {"results": results ,"query": query })
+
+def search_producto_categoria(request):
+    query = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(categoria__nombre__icontains=query)
+            # | Q(codigo__icontains=query)
+            )
+        results = Producto.objects.filter(qset)
+    else:
+        results = []
+    return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query })

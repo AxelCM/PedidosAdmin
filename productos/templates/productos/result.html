@@ -1,0 +1,79 @@
+{%extends 'productos/base.html' %}
+{%block title%}Control de Pedidos{%endblock title%}
+
+{%block navbar%}
+
+
+{%endblock navbar%}
+{%block search_bar%}
+
+{%endblock search_bar%}
+
+{%block content %}
+<br>
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="date" name="q"   size=50% value="{{ query|escape }}">
+	<!-- <input class="form-control mr-sm-2" type="search" name="q" placeholder="Buscar por empresa, No Pedido"  size=50% value="{{ query|escape }}"> -->
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+
+
+{% if query %}
+  {% if results%}
+
+
+<br><br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">NO. PEDIDO</th>
+      <th scope="col">CLIENTE </th>
+      <th scope="col">FECHA DEL PEDIDO</th>
+      <th scope="col">CANT DE ITEMS</th>
+      <th scope="col">TOTAL </th>
+      <th scope="col">SALDO </th>
+      <th scope="col">ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+		{% for search in results  %}
+    <tr>
+			{%if search.conteoItems == 0%}
+      <td class="bg-warning"><b>{{search.id_pedido}}</b></td>
+      <td class="bg-warning">{{search.cliente.nombre_comercial}}</td>
+      <td class="bg-warning">{{search.date}}</td>
+      <td class="bg-warning">{{search.conteoItems}}</td>
+      <td class="bg-warning">Q.{{search.totalpedido}}</td>
+      <td class="bg-warning">Q.{{search.Saldo}}</td>
+		{%else%}
+		<td >{{search.id_pedido}}</td>
+		<td>{{search.cliente.nombre_comercial}}</td>
+		<td>{{search.date}}</td>
+		<td>{{search.conteoItems}}</td>
+		<td>Q.{{search.totalpedido}}</td>
+		<td>Q.{{search.Saldo}}</td>
+		{%endif%}
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" search.id_pedido%}">+</a>
+				<a class="btn btn-outline-secondary" href="{%url "reporte_pedido" search.id_pedido%}">R</a>
+			</td>
+    </tr>
+{%endfor%}
+</tbody>
+</table>
+
+{% else %}
+<br>
+<div class="alert alert-warning" role="alert">
+	<h4>Lo Sentimos</h4> No se econtraron pedidos en la fecha <b>"{{query}}"</b>
+</div>
+
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+{%endblock content%}

@@ -1,0 +1,102 @@
+{%extends 'productos/base.html' %}
+{%block title%}Despacho{%endblock title%}
+{%load static%}
+{%block navbar%}
+
+
+{%endblock navbar%}
+{%block search_bar%}
+
+{%endblock search_bar%}
+
+{%block content %}
+<h1 align='center'>Buscar Producto</h1>
+<h3>Buscar: </h3>
+<br>
+<form class="form-inline" action="." method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="text"  name="q" size=50% value="{{ query|escape }}" placeholder="Codigo , Nombre">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+
+
+
+{% if query %}
+  {% if results%}
+
+
+<br><br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">CODIGO</th>
+      <th scope="col"></th>
+      <th scope="col">NOMBRE</th>
+      <th scope="col">PRECIO</th>
+      <th scope="col">CATEGORIA</th>
+      <th scope="col">+</th>
+    </tr>
+    {% for search in results  %}
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{search.id_producto}}</td>
+      <td>{{search.codigo}}</td>
+      <td>
+      {% if search.picture %}
+        <img src="{{search.picture.url}}" class="rounded-circle" height="50" />
+      {% else%}
+        <img src="{% static 'productos/img/default.png' %}" class="rounded-circle" height="50" />
+      {% endif %}
+      </td>
+      <td>{{search.nombre}}</td>
+      <td>{{search.precio}}</td>
+      <td>{{search.categoria}}</td>
+      <td>
+          <a  class="btn btn-primary" href="{%url "detail_producto" search.id_producto%}">+</a>
+          <a class="btn btn-outline-secondary" href="{%url "editar_producto" search.id_producto%}">E</a>
+      </td>
+    </tr>
+{%endfor%}
+</tbody>
+</table>
+
+<!--
+<div style="float:left; " >
+    <table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">PRODUCTO</th>
+					{% for search in results  %}
+				</tr>
+			</thead>
+      <tr><td>{{search.producto}}</td></tr>
+			{%endfor%}
+    </table>
+</div>
+<div style="float:left;" >
+    <table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">CANTIDAD TOTAL</th>
+					{% for cant in cantidad  %}
+				</tr>
+				</thead>
+      <tr><td>{{cant.cantidad}} , {{cant.total}}</td></tr>
+			{%endfor%}
+    </table>
+</div> -->
+
+{% else %}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos</h4> No se encontraron despachos para el producto <b>"{{query}}"</b>
+</div>
+
+
+{% endif %}
+{% endif %}
+
+
+
+{%endblock content%}

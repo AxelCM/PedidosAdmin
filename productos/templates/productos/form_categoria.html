@@ -1,0 +1,20 @@
+{%extends 'productos/base.html' %}
+{%block title%}Agregar Una Categoria{%endblock title%}
+
+
+{%block content %}
+<h1 align="center">AGREGAR CATEGORIA DE PRODUCTO</h1>
+
+
+<div class="col-md-12">
+<br>
+<form action="{%url "crear_categoria"%}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Nombre de la categoria</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre" placeholder="Agrega un nombre para la categoria" required=required>
+  </div>
+
+    <button align="center" type="submit" class="btn btn-primary btn-block mt-5">Agregar Categoria</button>
+
+{%endblock content%}

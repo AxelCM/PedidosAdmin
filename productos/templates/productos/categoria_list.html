@@ -1,0 +1,59 @@
+{%extends 'productos/base.html' %}
+{%block title%}Lista de Categorias{%endblock title%}
+{%load static%}
+
+{%block navbar%}
+
+{%endblock navbar%}
+
+{%block content %}
+<h1 align="center">Listado De Categorias</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th align="center">NOMBRE</th>
+      <th align="right"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for categoria in categoria_list%}
+    <tr>
+      <td>{{categoria.nombre}}</td>
+      <td align="center">
+          <a  class="btn btn-primary" href="{%url "editar_categoria" categoria.pk%}">Editar </a>
+          <a  class="btn btn-danger" href="{%url "remove_categoria" categoria.pk%}">Eliminar </a>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+<p>Mostrando 10 resultados por pagina.</p>
+<br>
+<div class="col col-md-12">
+<nav aria-label="Page navigation example">
+<ul class="pagination">
+<li class="page-item">
+  {% if page_obj.has_previous %}
+  <a class="page-link" href="{% url 'list_categoria' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+    <span aria-hidden="true">Ant &laquo;</span>
+    <span class="sr-only">Ant.</span>
+  </a>
+
+{% else %}
+  <span> <a class='btn btn-disable'>Ant</a> </span>
+{% endif %}
+
+  <li class="page-item">
+    {% if page_obj.has_next %}
+    <a class="page-link" href="{% url 'list_categoria' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
+      <span aria-hidden="true">Sig. &raquo;</span>
+      <span class="sr-only">Sig.</span>
+    </a>
+
+{% else %}
+  <span><a class='btn btn-disable'>Sig</a></span>
+{% endif %}
+</li>
+</div>
+
+{%endblock content%}
