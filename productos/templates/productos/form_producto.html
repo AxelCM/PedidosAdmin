@@ -4,8 +4,11 @@
 
 {%block content %}
 <h1 align="center">AGREGAR PRODUCTO AL CATALOGO</h1>
-
-
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
 <div class="col-md-12">
 <br>
 <form action="{%url "crear_producto"%}" method="POST" enctype="multipart/form-data">
@@ -33,6 +36,14 @@
     <option value="{{categoria.pk}}" >{{categoria.nombre}}</option>
     {%endfor%}
   </select>
-    <button align="center" type="submit" class="btn btn-primary btn-block mt-5">Agregar al Catalogo</button>
+<div class="col col-md-4">
+  <button align="center" type="submit" class="btn btn-primary btn-block mt-5">Guardar y Seguir</button>
+</div>
+<br>
+  <div class="submit-row">
+    <a class="btn btn-success" href="{%url "catalogo"%}">Ir al Catalogo </a> -
+    <a class="btn btn-info" href="{%url "catalogo_list"%}">Ir al lista de productos</a>
+  </div>
+  <br>
 
 {%endblock content%}

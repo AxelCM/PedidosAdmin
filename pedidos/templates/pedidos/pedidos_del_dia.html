@@ -7,7 +7,11 @@
 
 {%block content %}
 <h1 align="center">Pedidos de hoy </h1>
-
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
 <table class="table table-striped">
   <thead>
     <tr>

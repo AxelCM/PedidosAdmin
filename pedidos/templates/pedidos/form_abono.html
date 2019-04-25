@@ -24,7 +24,7 @@
     {%endfor%}
   </select>
   <br>
-  {%if  == 2%}
+  {%if pedido.tipo_pago.pk == 2%}
   <div class="form-group">
     <label for="exampleFormControlInput1">No. Cheque</label>
     <input type="number" step=".01" class="form-control" id="exampleFormControlInput1" name="cantidad" placeholder="Monto a Abonar" required="required">

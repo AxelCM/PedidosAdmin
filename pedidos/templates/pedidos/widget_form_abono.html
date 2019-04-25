@@ -1,15 +1,39 @@
 <form class="form-inline" action="{%url "ingresar_abono"%}" method="POST" >
   {% csrf_token %}
-  <div class="form-group">
-    <div class="form-group">
-      <input type="hidden" class="form-control" id="exampleFormControlInput1" name="id_pedido" value="{{search.id_pedido}}">
+    <div class="form-group mx-sm-3">
+      <label for="inputUser" class="sr-only">Pedido</label>
+      <input type="hidden" class="form-control" id="inputUser" name="id_pedido" value="{{search.id_pedido}}">
     </div>
-    <label for="exampleFormControlSelect1">Tipo de Pago</label>
+    <div class="form-group mx-sm-3">
+    <label >Tipo de Pago</label>
       <select class="form-control" id="exampleFormControlSelect1" name="tipo_pago">
         {%for t_pago in tipos_pago%}
         <option value="{{t_pago.pk}}" >{{t_pago.tipo_pago}}</option>
         {%endfor%}
       </select>
-      <button type="submit" class="btn btn-success btn-block mt-5">Ingresar Abono!</button>
   </div>
+  <button type="submit" class="btn btn-success">Ingresar Abono!</button>
 </form>
+
+
+<!-- <table align="center" width="700" border="void" cellpadding="5">
+<td width="50%">{{search.cliente}} Pedido No.{{search.id_pedido}} Q.{{search.totalpedido}}</td>
+<td width="50%">SALDO PENDIENTE: Q.{{search.Saldo}}</td>
+<tr>
+<td colspan="2" align="center">
+<form>
+{% csrf_token %}
+  <label >Tipo de Pago</label>
+    <select class="form-control" id="exampleFormControlSelect1" name="tipo_pago">
+      {%for t_pago in tipos_pago%}
+      <option value="{{t_pago.pk}}" >{{t_pago.tipo_pago}}</option>
+      {%endfor%}
+    </select>
+<input class type="submit" name="nombre" value="Abonar" size="40">
+<button type="submit" class="btn btn-success">Ingresar Abono!</button>
+</form>
+<script>
+document.form.nombre.focus();
+</script>
+</tr>
+</table> -->

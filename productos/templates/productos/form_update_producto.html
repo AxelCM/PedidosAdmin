@@ -4,6 +4,22 @@
 
 {%block content %}
 <h1 align="center">Editar Producto</h1>
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
+
+<!-- {% if form.errors %}
+<p>hola</p>
+{%for error in form.errors%}
+<div class="alert alert-danger" role="alert">
+  <p>Hubo un Error en el valor <b>{{ error }}</b></p>
+</div>
+{%endfor%}
+{% endif %} -->
+
+
 <div class="alert alert-warning" role="alert">
   <h4>Advertencia</h4>Estas a punto de Modificar el producto : {{object.nombre}}
 </div>

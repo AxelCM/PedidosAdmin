@@ -11,6 +11,11 @@
 
 {%block content %}
 <h1 align='center'>Busqueda de Abonos</h1>
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
 <h3>Buscar</h3>
 <br>
 <form class="form-inline" action="." method="GET" autocomplete="off">

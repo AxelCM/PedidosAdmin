@@ -31,17 +31,6 @@
     <h4>Atencion!</h4>Esta a punto de crear un abono, favor verifique que sea el cliente y el pedido correcto.
   </div>
 <br><br>
-  <div class="col col-sm-8">
-
-{%if abonos%}
-    <h1>Ultimos Abonos Ingresados</h1>
-    <br>
-{%endif%}
-{%for abono in abonos%}
-<p><b>{{abono.id_pedido}}</b> *-*-*- {{abono.tipo_pago}} *-*-*-*- Q.{{abono.cantidad}}</p>
-
-{%endfor%}
-</div>
 
 
 

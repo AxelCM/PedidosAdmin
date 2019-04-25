@@ -3,7 +3,10 @@ from django.shortcuts import render , render_to_response
 from django.urls import reverse ,reverse_lazy
 from django.db.models import Q
 from django.views.generic import FormView , TemplateView , UpdateView , DetailView , ListView
-
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout , login
 
 #Imports from Forms of Models
 from clientes.forms import RegisterClientForm
@@ -16,7 +19,10 @@ from clientes.models import Cliente
 
 #Vista para crear un nuevo cliente, se usa el form_class de los forms.py un
 #reverse para poder regresar a un url cuando todo se haga correctamente
-class Register(FormView):
+class Register(LoginRequiredMixin ,FormView):
+
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
 
     template_name = 'clientes/form_register.html'
     form_class = RegisterClientForm
@@ -28,7 +34,7 @@ class Register(FormView):
         return super().form_valid(form)
 
 #Vista para ver los detalles de un cliente
-class ClienteDetailView(DetailView):
+class ClienteDetailView(LoginRequiredMixin, DetailView):
     template_name = 'clientes/client_detail.html'
     slug_field = 'id_cliente'
     slug_url_kwarg = 'id_cliente'
@@ -36,7 +42,9 @@ class ClienteDetailView(DetailView):
     context_object_name = 'cliente'
 
 #Vista para Listar a los clientes de manera Paginada en grupos del valor de "paginate_by"
-class ClientesView(ListView):
+class ClientesView(LoginRequiredMixin ,ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'clientes/client_list.html'
     model = Cliente
     paginate_by = 5
@@ -48,7 +56,9 @@ class ClientesView(ListView):
 
 #Vista para actualizar o editar la informacion de un objecto de un Modelo
 #fields contiene todos los atributos que se van a modificar en el proceso
-class UpdateClient(UpdateView):
+class UpdateClient(LoginRequiredMixin, SuccessMessageMixin ,UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Cliente
     fields = ['n_representante',
             'nombre_comercial',
@@ -59,10 +69,12 @@ class UpdateClient(UpdateView):
             'nit',
         ]
     success_url = reverse_lazy('list_client')
+    success_message = 'El Cliente se actualizo con correctamente'
     template_name = 'clientes/form_update_cliente.html'
 
 #Funcion para buscar un query en los registros
-#results contiene los resultados de la busqueda
+#results contiene los resultados de la busqueda\
+@login_required
 def search_cliente(request):
     query = request.GET.get('q', '')
     if query:

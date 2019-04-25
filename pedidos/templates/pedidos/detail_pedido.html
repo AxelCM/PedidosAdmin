@@ -25,6 +25,11 @@
         </tbody>
         </table>
         <br>
+        {% if messages %}
+        <ul class="messages">
+          {%include "productos/mensajes.html"%}
+        </ul>
+        {% endif %}
         {%include "pedidos/widgets_add_product.html"%}
 
   </div>

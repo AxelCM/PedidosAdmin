@@ -10,32 +10,40 @@
 {%endblock search_bar%}
 
 {%block content %}
-<h1>INGRESAR UN ABONO</h1>
+<h1 align="center">INGRESAR UN ABONO</h1>
 <br>
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
 <h3>Busca el cliente:</h3>
 <form class="form-inline" action="." method="GET" autocomplete="off">
-	<input class="form-control mr-sm-2" type="text" name="q" placeholder="Buscar nombre comercial"   size=50% value="{{ query|escape }}">
+	<input class="form-control mr-sm-2" type="text" name="q" placeholder="Buscar nombre comercial , No. Pedido"   size=50% value="{{ query|escape }}">
 	<!-- <input class="form-control mr-sm-2" type="search" name="q" placeholder="Buscar por empresa, No Pedido"  size=50% value="{{ query|escape }}"> -->
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 </form>
-
 {% if query %}
   {% if results%}
-<h1>Estos son todos los pedidos con saldo de {{query}}</h1>
-Si el cliente no coincide con el deseado, busca de nuevo!
+	<br>
+<h3>Estos son todos los pedidos con saldo de <b>"{{query}}"</b></h3>
+<p><b>Nota:</b> Si el resultado no coincide con el deseado, busca de nuevo!</p>
   {% for search in results  %}
 	<div class="col col-md-8">
-		<br>
 		{%if search.Saldo  > 0 %}
 		<div class="alert alert-info" role="alert">
-		  <h4>Deseas Iniciar un Abono a {{search.cliente}} en el pedido No.{{search.id_pedido}} Q.{{search.totalpedido}} ?</h4>
+		  <h4>Abonar a {{search.cliente}} en el pedido No.{{search.id_pedido}} Q.{{search.totalpedido}} ?</h4>
 		  <b>Saldo Pendiente:Q.{{search.Saldo}}</b><br>
 		</div>
 		{%endif%}
 		{%if search.Saldo  > 0 %}
 			{%include "pedidos/widget_form_abono.html"%}
+			<br>
+			<br>
 		{%endif%}
 	</div>
+
+
 
   {%endfor%}
 

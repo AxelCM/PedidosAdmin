@@ -5,6 +5,11 @@ from django.http import JsonResponse
 from django.shortcuts import render , get_object_or_404 , render_to_response
 from django.urls import reverse , reverse_lazy
 from django.views.generic import View , TemplateView , DetailView , CreateView , ListView , UpdateView , DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 #from models
 from productos.models import Producto , Categoria
@@ -16,14 +21,19 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
-class CatalogoList(ListView):
+
+class CatalogoList(LoginRequiredMixin ,ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Producto
 
     template_name = 'productos/catalogo_list.html'
     paginate_by = 25
     queryset = productos = Producto.objects.all().order_by("nombre")
 
-class CatalogoView(TemplateView):
+class CatalogoView(LoginRequiredMixin ,TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'productos/catalogo.html'
 
 
@@ -32,7 +42,9 @@ class CatalogoView(TemplateView):
         categorias = Categoria.objects.all().order_by('nombre')
         return {'productos': productos , 'categorias': categorias}
 
-class UpdateProducto(UpdateView):
+class UpdateProducto(LoginRequiredMixin ,SuccessMessageMixin , UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Producto
     fields = ['nombre',
             'picture',
@@ -40,9 +52,13 @@ class UpdateProducto(UpdateView):
             'precio',
         ]
     success_url = reverse_lazy('catalogo_list')
+    success_message = "El producto se actualizo con exito"
+    error_message = "Algo salio mal, no se ejecuto correctamente"
     template_name = 'productos/form_update_producto.html'
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin ,View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     def get(self , request , *args , **kwargs):
         return render(request, 'productos/charts.html', {})
 
@@ -69,8 +85,10 @@ class CharData(APIView):
         }
         return Response(data)
 
-class ProductoDetailView(DetailView):
-    """User detail view."""
+class ProductoDetailView(LoginRequiredMixin ,DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
 
     template_name = 'productos/product.html'
     slug_field = 'id_producto'
@@ -78,16 +96,18 @@ class ProductoDetailView(DetailView):
     queryset = Producto.objects.all()
     context_object_name = 'productos'
 
-
+@login_required
 def view_product(request, id_producto):
     productos = Producto.objects.get(pk=id_producto)
     return render(request, 'productos/product.html', {'productos': productos })
 
-class CreateProduct(CreateView):
-
+class CreateProduct(LoginRequiredMixin ,SuccessMessageMixin , CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'productos/form_producto.html'
     form_class = ProductoForm
-    success_url = reverse_lazy('catalogo')
+    success_url = reverse_lazy('crear_producto')
+    success_message = 'El Producto se creo correctamente!'
 
     def get_context_data(self , *args , **kwargs):
         categorias = Categoria.objects.all()
@@ -95,32 +115,40 @@ class CreateProduct(CreateView):
 
 ##############################################
 
-class CreateCategoria(CreateView):
-
+class CreateCategoria(LoginRequiredMixin ,SuccessMessageMixin , CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'productos/form_categoria.html'
     form_class = CategoriaForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('list_categoria')
+    success_message = 'La categoria se creo correctamente!'
 
-class UpdateCategoria(UpdateView):
+class UpdateCategoria(LoginRequiredMixin ,UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Categoria
     fields = ['nombre',
         ]
     success_url = reverse_lazy('list_categoria')
     template_name = 'productos/form_update_categoria.html'
 
-class RemoveCategoria(DeleteView):
+class RemoveCategoria(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Categoria
     success_url = reverse_lazy('list_categoria')
     template_name = 'productos/remove_categoria.html'
 
-class CategoriaList(ListView):
+class CategoriaList(LoginRequiredMixin ,ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Categoria
     template_name = 'productos/categoria_list.html'
     paginate_by = 10
     queryset = Categoria.objects.all().order_by("nombre")
 
 
-
+@login_required
 def search_producto(request):
     query = request.GET.get('q' , '')
     if query:
@@ -133,6 +161,7 @@ def search_producto(request):
         results = []
     return render_to_response("productos/search_producto.html", {"results": results ,"query": query })
 
+@login_required
 def search_producto_categoria(request):
     query = request.GET.get('q' , '')
     if query:
@@ -144,3 +173,10 @@ def search_producto_categoria(request):
     else:
         results = []
     return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query })
+
+class LoginView(auth_views.LoginView):
+    template_name = 'productos/login.html'
+
+
+class LogoutView(LoginRequiredMixin, auth_views.LogoutView):
+    template_name = 'productos/logged_out.html'

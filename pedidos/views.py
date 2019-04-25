@@ -4,6 +4,12 @@ from django.views.generic import FormView , CreateView , TemplateView , DetailVi
 from django.urls import reverse , reverse_lazy
 from django.db.models import Q  , Sum , Avg , Count , FilteredRelation
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+
 
 #Imports from Models
 from pedidos.models import PedidoVentas , ItemPedido , Abono , TipoPago
@@ -21,8 +27,11 @@ from easy_pdf.views import PDFTemplateView , PDFTemplateResponseMixin
 
 User = get_user_model()
 
-class IndexView(TemplateView):
+class IndexView(LoginRequiredMixin, SuccessMessageMixin ,TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'productos/index.html'
+    success_message = 'Inicio de Sesion Correcto'
 
     def get_context_data(self , *args , **kwargs):
         users = User.objects.all()
@@ -30,20 +39,24 @@ class IndexView(TemplateView):
 
 
 
-class CreatePedido(CreateView):
-
+class CreatePedido(LoginRequiredMixin, SuccessMessageMixin , CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/form_pedido.html'
     form_class = PedidoForm
     success_url = reverse_lazy('pedidos_hoy')
+    success_message = 'El pedido se creo correctamente!'
 
     def get_context_data(self, *args, **kwargs):
         clientes = Cliente.objects.all()
         return {"clientes": clientes}
 
-class AddProducto(CreateView):
-
+class AddProducto(LoginRequiredMixin ,SuccessMessageMixin , CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/form_addproducto.html'
     form_class = AddProductoForm
+    success_message = 'Se agrego el producto al pedido'
     #success_url = reverse_lazy('pedidos_hoy')
 
     def get_context_data(self, *args, **kwargs):
@@ -60,10 +73,11 @@ class AddProducto(CreateView):
         return kwargs
 
 
-class RemoveProducto(DeleteView):
+class RemoveProducto(LoginRequiredMixin ,SuccessMessageMixin ,DeleteView):
     model = ItemPedido
     #success_url = reverse_lazy('ver_pedidos')
     template_name = 'pedidos/remove_product.html'
+    success_message  = 'Se elimino un producto del pedido'
 
     def get_success_url(self):
         return reverse('detail_pedido', kwargs={'id_pedido' : self.object.id_pedido.id_pedido})
@@ -73,10 +87,13 @@ class RemoveProducto(DeleteView):
             *args, **kwargs)
         return kwargs
 
-class UpdateProduct(UpdateView):
+class UpdateProduct(LoginRequiredMixin, SuccessMessageMixin ,UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = ItemPedido
     fields = ['cantidad']
     template_name = 'pedidos/form_update_product.html'
+    success_message = 'Se actualizo la cantidad de un articulo!'
     #success_url = reverse_lazy('ver_pedidos')
 
     def get_success_url(self):
@@ -89,7 +106,9 @@ class UpdateProduct(UpdateView):
 
 
 
-class PedidoView(TemplateView):
+class PedidoView(LoginRequiredMixin , TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
 
     template_name='pedidos/ver_pedidos.html'
 
@@ -103,9 +122,9 @@ class PedidoView(TemplateView):
 #     items = ItemPedido.objects.filter(id_pedido=pedidos)
 #     return render(request, 'pedidos/detail_pedido.html', {'items': items , 'pedido' : pedidos})
 
-class PedidoDetailView(DetailView):
-    """User detail view."""
-
+class PedidoDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/detail_pedido.html'
     slug_field = 'id_pedido'
     slug_url_kwarg = 'id_pedido'
@@ -121,18 +140,22 @@ class PedidoDetailView(DetailView):
         context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
         return context
 
+@login_required
 def abonoNew(request):
     form = AbonoForm()
     return render(request, 'pedidos/tryforms.html', {'form': form})
 
-class AddAbono(CreateView):
-
+class AddAbono(LoginRequiredMixin ,CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/tryforms.html'
     form_class = AbonoForm
     success_url = reverse_lazy('index')
+    success_message = 'El abono se creo correctamente'
 
-class AbonoAdd(CreateView):
-
+class AbonoAdd(LoginRequiredMixin , CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/form_abono.html'
     form_class = AbonoForm
     success_url = reverse_lazy('ver_saldo')
@@ -143,7 +166,9 @@ class AbonoAdd(CreateView):
         return {"pedidos": pedidos , "tipo_pagos" : tipo_pagos}
 
 
-class SaldosViews(TemplateView):
+class SaldosViews(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/saldos.html'
 
     def get_context_data(self , *args , **kwargs):
@@ -152,7 +177,9 @@ class SaldosViews(TemplateView):
         abonos = Abono.objects.all()
         return {'pedidos': pedidos , 'abonos':abonos}
 
-class DepachoDiarioView(TemplateView):
+class DepachoDiarioView(LoginRequiredMixin , TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/despacho.html'
 
     def get_context_data(self , *args , **kwargs):
@@ -165,23 +192,31 @@ class DepachoDiarioView(TemplateView):
 
 
 
-class AbonarView(CreateView):
+class AbonarView(LoginRequiredMixin ,SuccessMessageMixin ,CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/form_abono_2.html'
     form_class = AbonarForm
     success_url = reverse_lazy('abono_list')
+
 
     def get_context_data(self, *args, **kwargs):
         pedidos = PedidoVentas.objects.all()
         tipo_pagos = TipoPago.objects.all()
         return {"pedidos": pedidos , "tipo_pagos" : tipo_pagos}
 
-class UpdateAbono(UpdateView):
+class UpdateAbono(LoginRequiredMixin ,SuccessMessageMixin , UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     model = Abono
     fields = ['cantidad' , 'observaciones']
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('init_abono')
     template_name = 'pedidos/form_update_abono.html'
+    success_message = 'El Abono se agrego de forma correcta'
 
-class AbonoList(TemplateView):
+class AbonoList(LoginRequiredMixin ,TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/ultimo_abono.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -190,6 +225,7 @@ class AbonoList(TemplateView):
         ultimo_abono = id[0]
         return {"abonos": abonos , "ultimo_abono" : ultimo_abono }
 
+@login_required
 def search_pedido(request):
     query = request.GET.get('q', '')
     if query:
@@ -202,6 +238,7 @@ def search_pedido(request):
         results = []
     return render_to_response("pedidos/result.html", {"results": results ,"query": query })
 
+@login_required
 def search_producto(request):
     query = request.GET.get('q', '')
     if query:
@@ -214,6 +251,7 @@ def search_producto(request):
         results = []
     return render_to_response("pedidos/widget_search_product.html", {"results": results ,"query": query})
 
+@login_required
 def search_despacho(request):
     query = request.GET.get('q' , '')
     if query:
@@ -233,6 +271,7 @@ def search_despacho(request):
         cantidad = []
     return render_to_response("pedidos/search_despacho.html", {"results": results ,"query": query , "cantidad" : cantidad , "items" : items})
 
+@login_required
 def search_estado_cuenta(request):
     query = request.GET.get('q' , '')
     if query:
@@ -247,7 +286,9 @@ def search_estado_cuenta(request):
         results = []
     return render_to_response("pedidos/estados_de_cuenta.html", {"results": results ,"query": query })
 
-class PedidosHoy(ListView):
+class PedidosHoy(LoginRequiredMixin ,ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     hoy = date.today()
     template_name = 'pedidos/pedidos_del_dia.html'
     model = PedidoVentas
@@ -255,6 +296,7 @@ class PedidosHoy(ListView):
     queryset = PedidoVentas.objects.filter(date=hoy).order_by('date')
 
 #Busqueda de cliente para pedidos
+@login_required
 def iniciar_pedido_widget(request):
     query = request.GET.get('q' , '')
     if query:
@@ -275,8 +317,9 @@ def iniciar_pedido_widget(request):
 #         productos = Producto.objects.all()
 #         return {"pedido" : pedido , "productos" : productos}
 
-class PDFPedidoDetailView(PDFTemplateResponseMixin , DetailView):
-    """User detail view."""
+class PDFPedidoDetailView(LoginRequiredMixin ,PDFTemplateResponseMixin , DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
 
     template_name = 'pedidos/reporte_pedido.html'
     model = PedidoVentas
@@ -298,8 +341,9 @@ class PDFPedidoDetailView(PDFTemplateResponseMixin , DetailView):
             **kwargs
         )
 
-class PDFPedidoAbonosDetailView(PDFTemplateResponseMixin , DetailView):
-
+class PDFPedidoAbonosDetailView(LoginRequiredMixin ,PDFTemplateResponseMixin , DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/reporte_pedido_abonos.html'
     model = PedidoVentas
     slug_field = 'id_pedido'
@@ -320,7 +364,9 @@ class PDFPedidoAbonosDetailView(PDFTemplateResponseMixin , DetailView):
             **kwargs
         )
 
-class PDFDepachoDiarioView(PDFTemplateResponseMixin,TemplateView):
+class PDFDepachoDiarioView(LoginRequiredMixin ,PDFTemplateResponseMixin,TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'pedidos/reporte_despacho.html'
     queryset = PedidoVentas.objects.all()
 
@@ -335,7 +381,7 @@ class PDFDepachoDiarioView(PDFTemplateResponseMixin,TemplateView):
         return {'productos' : productos , 'pedidos' : pedidos , 'pd_hoy' : pd_hoy , 'hoy':fpedido_hoy , 'fecha' : fitems_hoy}
 
 
-
+@login_required
 def search_reporte_pedidos_abonos(request):
     query = request.GET.get('q' , '')
     if query:
@@ -350,7 +396,7 @@ def search_reporte_pedidos_abonos(request):
         results = []
     return render_to_response("pedidos/search_reporte_pedidos_abonos.html", {"results": results ,"query": query })
 
-
+@login_required
 def despachoYPedidos(request):
     query = request.GET.get('q' , '')
     q = request.GET.get('q' , '')
@@ -363,6 +409,7 @@ def despachoYPedidos(request):
         results = []
     return render(request  ,"pedidos/despacho_pedido.html", {"results": results ,"query": query , })
 
+@login_required
 def search_abono(request):
     query = request.GET.get('q' , '')
     q = request.GET.get('q' , '')
@@ -379,6 +426,7 @@ def search_abono(request):
         results = []
     return render(request  ,"pedidos/search_abono.html", {"results": results ,"query": query , })
 
+@login_required
 def iniciar_abono_widget(request):
     query = request.GET.get('q' , '')
     tipos = TipoPago.objects.all()

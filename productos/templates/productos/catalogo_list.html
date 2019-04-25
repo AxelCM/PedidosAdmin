@@ -7,8 +7,20 @@
 {%endblock navbar%}
 
 {%block content %}
+<h1 align='center'>Buscar Producto</h1>
+<h3>Buscar: </h3>
+<form class="form-inline" action="{%url "buscar_producto"%}" method="GET" autocomplete="off">
+	<input class="form-control mr-sm-2" type="text"  name="q" size=50% value="{{ query|escape }}" placeholder="Codigo , Nombre">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+</form>
+<br>
 <h1 align="center">Listado De Productos</h1>
-
+{% if messages %}
+  <ul class="messages">
+    {%include "productos/mensajes.html"%}
+  </ul>
+{% endif %}
+<p>Mostrando 25 resultados por pagina.</p>
 <table class="table table-striped">
   <thead>
     <tr>

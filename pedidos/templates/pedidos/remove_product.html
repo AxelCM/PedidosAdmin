@@ -20,7 +20,8 @@
       <h4>Advertencia</h4>Estas a punto de Eliminar un Articulo del {{object.id_pedido}}
     </div>
   </div>
-  <form method="post">{% csrf_token %}
+  <form action="{%url "remove_product" object.pk%}" method="post">
+    {% csrf_token %}
     <br>
     <b>Detalle de la accion:</b>
     <br>
