@@ -1,5 +1,5 @@
 <h4>Agrega Producto Rapido</h4>
-<form class="form-inline" action="{% url "agregar_producto"%}" method="POST" >
+<form class="form-inline" action="{%url "agregar_producto"%}" method="POST" >
   {% csrf_token %}
   <div class="form-group">
   <div class="form-group">
@@ -9,11 +9,14 @@
     {%for producto in productos%}
     <option value="{{producto.id_producto}}" >{{producto.nombre}}</option>
     {%endfor%}
-  </select>
+</select>
   <br>
   <div class="form-group">
     <input type="number" class="form-control" id="exampleFormControlInput1" name="cantidad" placeholder="Cantidad de Productos" >
   </div>
+  <!-- <div class="form-group">
+    <input type="number" class="form-control" id="exampleFormControlInput1" name="precio" value="" placeholder="Cantidad de Productos" >
+  </div> -->
   <button type="submit" class="btn btn-success ">Agregar producto</button>
 </div>
 <br>

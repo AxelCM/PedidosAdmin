@@ -30,11 +30,11 @@
                     {% csrf_token %}
 
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Username" name="username" />
+                        <input class="form-control" type="text" placeholder="Username" name="username" required=require />
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" type="password" placeholder="Password" name="password" />
+                        <input class="form-control" type="password" placeholder="Password" name="password" required=required   />
                     </div>
 
                 <button class="btn btn-secondary btn-block mt-5" type="submit">Iniciar Sesion</button>

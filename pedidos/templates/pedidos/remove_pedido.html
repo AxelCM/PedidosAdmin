@@ -1,0 +1,56 @@
+{%extends 'productos/base.html' %}
+{%block title%}Catalogo{%endblock title%}
+
+{%block navbar%}
+<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+  </ul>
+  <a class="btn btn-primary"  href="{%url "detail_pedido" object.pk%}">Regresar a Pedidos</a>
+</div>
+{%endblock navbar%}
+
+
+{%block content %}
+<main role="main">
+
+  <div class="col col-md-8">
+    <br>
+    <div class="alert alert-warning" role="alert">
+      <h4>Advertencia</h4>Estas a punto de Eliminar El Pedido No.{{object.id_pedido}} de {{object.cliente}}
+    </div>
+  </div>
+  <form action="{%url "remove_pedido" object.pk%}" method="post">
+    {% csrf_token %}
+    <br>
+    <b>Detalle de la accion:</b>
+    <br>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">NO.</th>
+          <th scope="col">CLIENTE</th>
+          <th scope="col">DESCRIPCION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{object.id_pedido}}</td>
+          <td>{{object.cliente}}</td>
+          <td>Se eliminara el pedido esto afectara el monto y sus derivados.</td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <br><br>
+    <div class="alert alert-danger" role="alert">
+      Estas seguro que deseas eliminar: <b>Pedido No.{{object.id_pedido}} {{object.cliente}}</b>?
+  </div>
+  <!-- <input class="btn btn-danger" type="submit" value="Si, Eliminar"> -->
+  <input class="btn btn-danger" onclick="window.location.href = '{%url "search_pedido"%}';" type="submit" value="Si, Eliminar" />
+  <a class='btn btn-info' href="{%url "detail_pedido" object.id_pedido%}">No, Regresar</a>
+  </form>
+
+</main>
+{%endblock content%}

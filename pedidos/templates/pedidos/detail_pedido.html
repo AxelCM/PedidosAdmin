@@ -30,7 +30,9 @@
           {%include "productos/mensajes.html"%}
         </ul>
         {% endif %}
+        {%if object.finished == False %}
         {%include "pedidos/widgets_add_product.html"%}
+        {%endif%}
 
   </div>
   <br>
@@ -57,9 +59,11 @@
               <td>{{item.producto}}</td>
               <td>Q.{{item.producto.precio}}</td>
               <td>Q.{{item.sub_total}}</td>
+              {%if object.finished == False %}
               <td><a class="btn btn-danger" href="{%url "remove_product"  item.pk%}">Quitar</a>
                   <a class="btn btn-info" href="{%url "update_product"  item.id%}">Editar</a>
                   </td>
+              {%endif%}
               <!-- <td>Q.{{item.precio}}</td> -->
             </tr>
             {%endfor%}
@@ -75,15 +79,25 @@
         <h3 align="right">TOTAL: Q.{{pedido.totalpedido}}</h3>
         <h4 align="right" style="color:red;">-Q.{{pedido.Abonado}}</h4>
         <h2 align="right">SALDO: Q.{{pedido.Saldo}}</h2>
+        {%if object.finished == False %}
+        <a class="btn btn-danger" href="{%url "finalizar_pedido" object.pk%}">Finalizar Pedido</a>
+        <a class="btn btn-warning" href="{%url "remove_pedido" object.pk%}">Eliminar Pedido</a>
+        {%else%}
+        <br>
+        <h2 style="color:blue";>ESTE PEDIDO YA FUE FINALIZADO Y NO PUEDE SER MODIFICADO</h2>
+        {%endif%}
           <!-- <p><b>Producto:  </b>{{productos.nombre}}</p>
           <p><b>Precio:  </b>Q.{{productos.precio}}</p>
           <p><b>Categoria:  </b>{{productos.categoria.nombre}}</p>
           <p><b>Codigo:  </b>{{productos.codigo}}</p> -->
       </div>
   {%if abonos%}
+  <br>
   <h2>TOTAL ABONADO: {{pedido.Abonado}}</h2>
   {%endif%}
+  <br>
 <h4>Historial de Abonos</h4>
+<br>
 {%for abono in abonos%}
 <p> <b>Fecha:</b> {{abono.fecha}} por Q.{{abono.cantidad}} en {{abono.tipo_pago}} <a href="{%url "update_abono" abono.pk%}">Editar</a></p>
 {%empty%}

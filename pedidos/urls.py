@@ -8,6 +8,8 @@ AbonoAdd , DepachoDiarioView , AbonarView , UpdateAbono , AbonoList , search_ped
 search_despacho , PedidosHoy , search_estado_cuenta , iniciar_pedido_widget ,
 PDFPedidoDetailView , despachoYPedidos , search_abono , iniciar_abono_widget,
 search_reporte_pedidos_abonos , PDFPedidoAbonosDetailView , PDFDepachoDiarioView ,
+FinalizarPedido, PedidosSinFinalizar,RemovePedido, PDFPedidosHoy , PDFCierreDiario,
+search_abono_fecha
 )
 
 urlpatterns = [
@@ -21,9 +23,11 @@ urlpatterns = [
     path('ver/saldos/' , SaldosViews.as_view() , name='ver_saldo'),
     path('add/product/' , AddProducto.as_view() , name='agregar_producto'),
     path('remove/product/<int:pk>/' , RemoveProducto.as_view() , name='remove_product'),
+    path('remove/pedido/<int:pk>/' , RemovePedido.as_view() , name='remove_pedido'),
     path('update/product/<int:pk>/' , UpdateProduct.as_view() , name='update_product'),
     path('update/abono/<int:pk>/' , UpdateAbono.as_view() , name='update_abono'),
     path('ver/pedidos/' , PedidoView.as_view() , name='ver_pedidos'),
+    path('ver/pedidos/sin_finalizar' , PedidosSinFinalizar.as_view() , name='pedidos_sin_finalizar'),
     path('hacer/abono/' , abonoNew , name='hacer_abono'),
     path('detail/pedido/<int:id_pedido>/' , PedidoDetailView.as_view() , name='detail_pedido'),
     path('detail/producto/<int:id_producto>/' , ProductoDetailView.as_view() , name='detail_producto'),
@@ -41,6 +45,11 @@ urlpatterns = [
     path('search/reporte/pedidos/abonos/' , search_reporte_pedidos_abonos , name="search_reporte_pedido_abonos"),
     path('reporte/pedido/abonos/<int:id_pedido>/' , PDFPedidoAbonosDetailView.as_view() , name="reporte_pedido_abonos"),
     path('reporte/pedido/despacho/hoy/' , PDFDepachoDiarioView.as_view() , name='reporte_pedidos_hoy'),
+    path('reporte/pedido/hoy/' , PDFPedidosHoy.as_view() , name='pdfreporte_pedidos_hoy'),
+    path('cierre/diario/hoy/' , PDFCierreDiario.as_view() , name='cierre_diario'),
+    path('finalizar/pedido/<int:id>/', FinalizarPedido , name="finalizar_pedido"),
+    path('search/abono/fecha/' , search_abono_fecha , name='search_abono_fecha')
+
 
 
 

@@ -1,0 +1,24 @@
+{%include 'pedidos/encabezado.html'%}
+
+  <br>
+  <h1>ESTE DOCUMENTO CONTIENE LOS MOVIMIENTOS GENERADOS Y RECIBIDOS</h1>
+  <p><b>Fecha de Creacion: </b> {{date}}</p>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th align="left">TOTAL DE PEDIDOS</th>
+        <th align="center">TOTAL DE ABONOS RECIBIDOS</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td align="left">Q.{{pedidos.generado}}</td>
+          {%if abonos.abonos_total%}
+          <td align="center">Q.{{abonos.abonos_total}}</td>
+          {%else%}
+          <td align="center"> Q.0</td>
+          {%endif%}
+      </tr>
+    </tbody>
+  </table>

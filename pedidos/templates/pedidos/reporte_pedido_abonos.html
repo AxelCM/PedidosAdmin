@@ -52,14 +52,16 @@
                 {%endif%}
             </thead>
             <tbody>
+              {%for abono in abonos%}
+              {%if abono.cantidad > 0 %}
               <tr>
-                {%for abono in abonos%}
 
                 <td align="center" width="auto">{{abono.fecha}}</td>
                 <td align="center" width="auto">{{abono.cantidad}}</td>
                 <td align="left" width="auto">{{abono.tipo_pago}}</td>
                 <td align="left" width="auto">{{abono.observaciones}}</td>
                 <td> </td>
+                {%endif%}
               </tr>
               {%empty%}
               <h1 style="color:blue;" align="center">NO HAY NINGUN ABONO SOBRE ESTE PEDIDO</h1>

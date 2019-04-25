@@ -33,6 +33,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{%url "pedidos_hoy"%}">Pedidos de Hoy</a>
+              <a class="dropdown-item" href="{%url "pedidos_sin_finalizar"%}">Pedidos Sin Finalizar</a>
               <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido</a>
               <a class="dropdown-item" href="{%url "search_pedido"%}">Buscar Por Fecha</a>
                 <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Buscar Por Cliente</a>
@@ -70,6 +71,8 @@
         <a class="dropdown-item" href="{%url "search_pedido"%}">Imprimir Pedido</a>
         <a class="dropdown-item" href="{%url "search_reporte_pedido_abonos"%}">Imprimir Abonos de un Pedido</a>
         <a class="dropdown-item" href="{%url "reporte_pedidos_hoy"%}">Imprimir Despacho de Hoy</a>
+        <a class="dropdown-item" href="{%url "pdfreporte_pedidos_hoy"%}">Imprimir Pedidos de Hoy</a>
+        <a class="dropdown-item" href="{%url "cierre_diario"%}">Imprimir Cierre Diario</a>
       </div>
     </li>
     <li class="nav-item active dropdown">
@@ -85,8 +88,10 @@
         Abonos
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{%url "search_abono_fecha"%}">Buscar Abonos Por Fecha</a>
         <a class="dropdown-item" href="{%url "search_abono"%}">Buscar Abono</a>
         <a class="dropdown-item" href="{%url "init_abono"%}">Ingresar Abono</a>
+
       </div>
     </li>
     <!-- <li class="nav-item">

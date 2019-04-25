@@ -6,7 +6,7 @@
 {%endblock navbar%}
 
 {%block content %}
-<h1 align="center">Pedidos de hoy </h1>
+<h1 align="center">Pedidos Sin Finalizar </h1>
 {% if messages %}
   <ul class="messages">
     {%include "productos/mensajes.html"%}
@@ -36,8 +36,8 @@
       <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">+</a></td>
     </tr>
     {%empty%}
-    <div class="alert alert-warning" role="alert">
-      <h4>Lo Sentimos</h4> No se encontraron pedidos del dia de Hoy
+    <div class="alert alert-success" role="alert">
+      <h4>Excelente!</h4> No hay pedidos sin finalizar
     </div>
     {%endfor%}
   </tbody>
@@ -50,7 +50,7 @@
 <ul class="pagination">
 <li class="page-item">
   {% if page_obj.has_previous %}
-  <a class="page-link" href="{% url 'pedidos_hoy' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+  <a class="page-link" href="{% url 'pedidos_sin_finalizar' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
     <span aria-hidden="true">Ant &laquo;</span>
     <span class="sr-only">Ant.</span>
   </a>
@@ -61,7 +61,7 @@
 
   <li class="page-item">
     {% if page_obj.has_next %}
-    <a class="page-link" href="{% url 'pedidos_hoy' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
+    <a class="page-link" href="{% url 'pedidos_sin_finalizar' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
       <span aria-hidden="true">Sig. &raquo;</span>
       <span class="sr-only">Sig.</span>
     </a>

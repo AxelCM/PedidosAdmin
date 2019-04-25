@@ -4,6 +4,7 @@ from django.views.generic import FormView , CreateView , TemplateView , DetailVi
 from django.urls import reverse , reverse_lazy
 from django.db.models import Q  , Sum , Avg , Count , FilteredRelation
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect , JsonResponse, HttpResponse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,6 +22,7 @@ from pedidos.forms import PedidoForm , AddProductoForm , AbonoForm , AbonarForm
 
 #imports from python and Anothers
 from datetime import *
+from django.utils import timezone
 from easy_pdf.views import PDFTemplateView , PDFTemplateResponseMixin
 
 
@@ -28,7 +30,7 @@ from easy_pdf.views import PDFTemplateView , PDFTemplateResponseMixin
 User = get_user_model()
 
 class IndexView(LoginRequiredMixin, SuccessMessageMixin ,TemplateView):
-    login_url = '/login/'
+    login_url = '/login'
     redirect_field_name = 'redirect_to'
     template_name = 'productos/index.html'
     success_message = 'Inicio de Sesion Correcto'
@@ -40,7 +42,7 @@ class IndexView(LoginRequiredMixin, SuccessMessageMixin ,TemplateView):
 
 
 class CreatePedido(LoginRequiredMixin, SuccessMessageMixin , CreateView):
-    login_url = '/login/'
+    login_url = '/login'
     redirect_field_name = 'redirect_to'
     template_name = 'pedidos/form_pedido.html'
     form_class = PedidoForm
@@ -59,10 +61,15 @@ class AddProducto(LoginRequiredMixin ,SuccessMessageMixin , CreateView):
     success_message = 'Se agrego el producto al pedido'
     #success_url = reverse_lazy('pedidos_hoy')
 
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
     def get_context_data(self, *args, **kwargs):
         pedidos = PedidoVentas.objects.all()
         productos = Producto.objects.all()
-        return {"pedidos": pedidos , "productos" : productos}
+        precios = Producto.objects.all()
+        return {"pedidos": pedidos , "productos" : productos , "precios" : precios}
 
     def get_success_url(self):
         return reverse('detail_pedido', kwargs={'id_pedido' : self.object.id_pedido.id_pedido})
@@ -86,6 +93,13 @@ class RemoveProducto(LoginRequiredMixin ,SuccessMessageMixin ,DeleteView):
         kwargs = super(DeleteView, self).get_form_kwargs(
             *args, **kwargs)
         return kwargs
+
+class RemovePedido(LoginRequiredMixin ,SuccessMessageMixin ,DeleteView):
+    model = PedidoVentas
+    success_url = reverse_lazy('search_pedido')
+    template_name = 'pedidos/remove_pedido.html'
+    success_message  = 'Se elimino un producto del pedido'
+
 
 class UpdateProduct(LoginRequiredMixin, SuccessMessageMixin ,UpdateView):
     login_url = '/login/'
@@ -139,6 +153,14 @@ class PedidoDetailView(LoginRequiredMixin, DetailView):
         context['items'] = ItemPedido.objects.filter(id_pedido=id_pedidos)
         context['abonos'] = Abono.objects.filter(id_pedido=id_pedidos)
         return context
+
+class PedidosSinFinalizar(LoginRequiredMixin , ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'pedidos/pedidos_sin_finalizar.html'
+    model = PedidoVentas
+    paginate_by = 10
+    queryset = PedidoVentas.objects.filter(finished=False).order_by('date')
 
 @login_required
 def abonoNew(request):
@@ -295,6 +317,17 @@ class PedidosHoy(LoginRequiredMixin ,ListView):
     paginate_by = 10
     queryset = PedidoVentas.objects.filter(date=hoy).order_by('date')
 
+class PDFPedidosHoy(LoginRequiredMixin, PDFTemplateResponseMixin , TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'pedidos/report_pedidos_del_dia.html'
+
+    def get_context_data(self , *args , **kwargs):
+        hoy = date.today()
+        pedidos = PedidoVentas.objects.filter(date=hoy , finished=True).order_by('date')
+        ingresos = pedidos.all().aggregate(ingreso_total=Sum('total'))
+        return {"pedidos" : pedidos , "ingresos" : ingresos}
+
 #Busqueda de cliente para pedidos
 @login_required
 def iniciar_pedido_widget(request):
@@ -375,10 +408,10 @@ class PDFDepachoDiarioView(LoginRequiredMixin ,PDFTemplateResponseMixin,Template
         fitems_hoy = datetime.today()
         productos = ItemPedido.objects.all().order_by("producto__nombre").distinct("producto__nombre")
         #items = ItemPedido.objects.values('producto__nombre').distinct().order_by('producto__nombre')
-        pedidos = PedidoVentas.objects.filter(date=fpedido_hoy).order_by('cliente')
-        pd_hoy = ItemPedido.objects.filter(create_at=fitems_hoy).order_by("-id_pedido")
-
-        return {'productos' : productos , 'pedidos' : pedidos , 'pd_hoy' : pd_hoy , 'hoy':fpedido_hoy , 'fecha' : fitems_hoy}
+        pedidos = PedidoVentas.objects.filter(date=fpedido_hoy , finished=True).order_by('cliente')
+        pd_hoy = ItemPedido.objects.filter(create_at=fitems_hoy , id_pedido__finished=True).order_by("-id_pedido")
+        despachado = pd_hoy.all().aggregate(suma=Sum('cantidad'))
+        return {'productos' : productos , 'pedidos' : pedidos , 'pd_hoy' : pd_hoy , "despachado" : despachado , 'hoy':fpedido_hoy , 'fecha' : fitems_hoy}
 
 
 @login_required
@@ -427,6 +460,20 @@ def search_abono(request):
     return render(request  ,"pedidos/search_abono.html", {"results": results ,"query": query , })
 
 @login_required
+def search_abono_fecha(request):
+    query = request.GET.get('q' , '')
+    query2 = query.split('-')
+    q = request.GET.get('q' , '')
+    if query:
+        qset = (
+            Q(fecha__icontains=query)
+            )
+        results = Abono.objects.filter(qset).order_by('-fecha')
+    else:
+        results = []
+    return render(request  ,"pedidos/search_abono_fecha.html", {"results": results ,"query": query , })
+
+@login_required
 def iniciar_abono_widget(request):
     query = request.GET.get('q' , '')
     tipos = TipoPago.objects.all()
@@ -439,3 +486,30 @@ def iniciar_abono_widget(request):
         results = []
         data = []
     return render(request  ,"pedidos/iniciar_abono.html", {"results": results ,"query": query , 'tipos_pago' : tipos })
+
+@login_required
+def FinalizarPedido(request , id):
+    pedidos = PedidoVentas.objects.filter(pk=id).update(finished=True)
+    items = ItemPedido.objects.filter(id_pedido=id)
+    m_total = 0
+    for item in items:
+        precio_finished = item.producto.precio
+        cantidad = item.cantidad
+        item_finished = items = ItemPedido.objects.filter(id_pedido=id).update(precio=precio_finished)
+        m_total += precio_finished * cantidad
+    pedidos = PedidoVentas.objects.filter(pk=id).update(total=m_total)
+    messages.success(request , 'EL PEDIDO SE FINALIZO CON EXITO')
+    return HttpResponseRedirect(reverse('pedidos_sin_finalizar'))
+
+class PDFCierreDiario(PDFTemplateResponseMixin , LoginRequiredMixin , TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'pedidos/reporte_cierre.html'
+
+    def get_context_data(self , *args , **kwargs):
+        hoy = date.today()
+        abono_f = str(date.today()).split('-')
+        pedidos = PedidoVentas.objects.filter(date=hoy , finished=True).aggregate(generado=Sum('total'))
+        abonos = Abono.objects.filter(fecha__day=abono_f[2]).aggregate(abonos_total=Sum('cantidad'))
+        lista = Abono.objects.all().filter(fecha__day=abono_f[2])
+        return {"pedidos" : pedidos , "abonos" : abonos , "date" : hoy , "lista" : lista }

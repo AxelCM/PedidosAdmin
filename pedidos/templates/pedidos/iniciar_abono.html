@@ -26,7 +26,7 @@
 {% if query %}
   {% if results%}
 	<br>
-<h3>Estos son todos los pedidos con saldo de <b>"{{query}}"</b></h3>
+<h3>Estos son todos los pedidos con saldo pendiente segun la busqueda de: <b>"{{query}}"</b></h3>
 <p><b>Nota:</b> Si el resultado no coincide con el deseado, busca de nuevo!</p>
   {% for search in results  %}
 	<div class="col col-md-8">
@@ -42,16 +42,20 @@
 			<br>
 		{%endif%}
 	</div>
-
+{%empty%}
+<br>
+<div class="alert alert-warning" role="alert">
+  <h4>Lo Sentimos</h4> No se econtraron pedidos Pendientes de : <b>"{{query}}"</b>
+</div>
 
 
   {%endfor%}
+  <br>
 
 
   {% else %}
-  <br>
   <div class="alert alert-warning" role="alert">
-  	<h4>Lo Sentimos</h4> No se econtraron pedidos en la fecha <b>"{{query}}"</b>
+  	<h4>Lo Sentimos</h4> No se econtraron resultados de: <b>"{{query}}"</b>
   </div>
 
     {% endif %}

@@ -1,0 +1,33 @@
+{%include 'pedidos/encabezado.html'%}
+
+<br>
+<h2>TOTAL DE INGRESO EN PEDIDOS: <u>Q.{{ingresos.ingreso_total}}</u></h2>
+<br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th align="left">NO. PEDIDO</th>
+      <th align="left">CLIENTE </th>
+      <th scope="col">FECHA DEL PEDIDO</th>
+      <th scope="col">CANT DE ITEMS</th>
+      <th align="center">TOTAL </th>
+      <th scope="col">SALDO </th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for pedido in pedidos%}
+    <tr>
+      <td>{{pedido.id_pedido}}</td>
+      <td>{{pedido.cliente.nombre_comercial}}</td>
+      <td>{{pedido.date}}</td>
+      <td align="center">{{pedido.conteoItems}}</td>
+      <td align="center">Q.{{pedido.totalpedido}}</td>
+      <td align="center">Q.{{pedido.Saldo}}</td>
+    </tr>
+    {%empty%}
+    <div class="alert alert-warning" role="alert">
+      <h4>Lo Sentimos</h4> No se encontraron pedidos del dia de Hoy
+    </div>
+    {%endfor%}
+  </tbody>
+</table>

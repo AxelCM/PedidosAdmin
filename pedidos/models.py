@@ -17,6 +17,8 @@ class PedidoVentas(models.Model):
     cliente = models.ForeignKey(Cliente , on_delete=models.CASCADE)
     #producto = models.ForeignKey(Producto , on_delete=models.CASCADE)
     date = models.DateField('Fecha de Pedido' , auto_now_add=True)
+    finished = models.BooleanField('Estado' , default=False)
+    total = models.DecimalField('Total del Pedido' , default=0, max_digits=12 , decimal_places=2)
     #date_des = models.DateField('Fecha de Despacho', auto_now_add=True)
     #cantidad_pedida = models.IntegerField ('Cantidad Pedida' , default=0)
 
@@ -80,6 +82,7 @@ class ItemPedido(models.Model):
     id_pedido = models.ForeignKey(PedidoVentas , on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto , on_delete=models.CASCADE)
     cantidad = models.IntegerField('Cantidad' , default=1)
+    precio = models.DecimalField('Precio' , default=0.0 , max_digits=9 , decimal_places=2)
 
     def sub_total(self):
         subtotal= self.producto.precio * self.cantidad

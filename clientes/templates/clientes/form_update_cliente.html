@@ -9,7 +9,11 @@
     <h4>Advertencia</h4>Estas a punto de Modificar la informacion de : {{object.nombre_comercial}}
   </div>
 
-
+  {%if form.errors%}
+  <div class="alert alert-danger" role="alert">
+  Hubo un Error en el Formulario
+  </div>
+  {%endif%}
 <form action="{%url "update_client" object.pk%}" method="POST">
   {% csrf_token %}
   {# n_representante field #}
@@ -36,6 +40,9 @@
   <div class="form-group">
     <label for="exampleFormControlInput1">Email</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" name="email" value="{{object.email}}">
+    {%if form.email.errors%}
+    <p style="color:red";>*Ingrese una direccion de Correo Valida</p>
+    {%endif%}
   </div>
   <div class="form-check">
     {%if object.mayorista == True %}

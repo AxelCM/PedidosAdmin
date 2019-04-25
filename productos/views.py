@@ -1,5 +1,5 @@
 #from django
-from django.db.models import Q
+from django.db.models import Q , Sum , Avg
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import render , get_object_or_404 , render_to_response
@@ -13,7 +13,9 @@ from django.contrib.auth.decorators import login_required
 
 #from models
 from productos.models import Producto , Categoria
+from clientes.models import Cliente
 from productos.forms import ProductoForm , CategoriaForm
+from pedidos.models import PedidoVentas
 
 #from others
 from rest_framework.views import APIView
@@ -75,10 +77,11 @@ class CharData(APIView):
     permission_classes = []
 
     def get(self, request, format=None):
-        users = User.objects.all().count()
-        products = Producto.objects.all().count()
-        labels = ['Vendedores', 'Productos', 'Prueba', 'Otros2', 'Purple', 'Orange']
-        default_items = [users, products, 5, 8, 11, 12]
+        clients = Cliente.objects.all()
+        count = Cliente.objects.all().count()
+        pedidos = PedidoVentas.objects.all().count()
+        labels = ['Clientes', 'Pedidos', 'Prueba', 'Otros2', 'Purple', 'Orange']
+        default_items = [count, pedidos, 5, 8, 11, 12]
         data = {
             "labels": labels,
             "default": default_items,
@@ -174,8 +177,9 @@ def search_producto_categoria(request):
         results = []
     return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query })
 
-class LoginView(auth_views.LoginView):
+class LoginView(SuccessMessageMixin , auth_views.LoginView):
     template_name = 'productos/login.html'
+    success_message = "Bienvenido!"
 
 
 class LogoutView(LoginRequiredMixin, auth_views.LogoutView):
