@@ -47,7 +47,7 @@ class CreatePedido(LoginRequiredMixin, SuccessMessageMixin , CreateView):
     template_name = 'pedidos/form_pedido.html'
     form_class = PedidoForm
     success_url = reverse_lazy('pedidos_hoy')
-    success_message = 'El pedido se creo correctamente!'
+    success_message = 'El pedido se creo correctamente! , ya puedes agregarle productos al pedido!'
 
     def get_context_data(self, *args, **kwargs):
         clientes = Cliente.objects.all()
@@ -437,7 +437,7 @@ def despachoYPedidos(request):
         qset = (
             Q(create_at__icontains=query)
             )
-        results = ItemPedido.objects.filter(qset).order_by('-id_pedido')
+        results = ItemPedido.objects.filter(qset , id_pedido__finished=True).order_by('-id_pedido')
     else:
         results = []
     return render(request  ,"pedidos/despacho_pedido.html", {"results": results ,"query": query , })
@@ -481,7 +481,7 @@ def iniciar_abono_widget(request):
         qset = (
             Q(cliente__nombre_comercial__icontains=query)
             )
-        results = PedidoVentas.objects.filter(qset)
+        results = PedidoVentas.objects.filter(qset , total__gt=1)
     else:
         results = []
         data = []
@@ -495,7 +495,7 @@ def FinalizarPedido(request , id):
     for item in items:
         precio_finished = item.producto.precio
         cantidad = item.cantidad
-        item_finished = items = ItemPedido.objects.filter(id_pedido=id).update(precio=precio_finished)
+        item_finished = ItemPedido.objects.filter(producto=item.producto.id_producto).update(precio=precio_finished)
         m_total += precio_finished * cantidad
     pedidos = PedidoVentas.objects.filter(pk=id).update(total=m_total)
     messages.success(request , 'EL PEDIDO SE FINALIZO CON EXITO')
@@ -510,6 +510,18 @@ class PDFCierreDiario(PDFTemplateResponseMixin , LoginRequiredMixin , TemplateVi
         hoy = date.today()
         abono_f = str(date.today()).split('-')
         pedidos = PedidoVentas.objects.filter(date=hoy , finished=True).aggregate(generado=Sum('total'))
+        contador = PedidoVentas.objects.filter(date=hoy , finished=True).aggregate(contador_pedido=Count('id_pedido'))
+        contador_abonos = Abono.objects.filter(fecha__day=abono_f[2]).aggregate(contador_abono=Count('id_abono'))
         abonos = Abono.objects.filter(fecha__day=abono_f[2]).aggregate(abonos_total=Sum('cantidad'))
         lista = Abono.objects.all().filter(fecha__day=abono_f[2])
-        return {"pedidos" : pedidos , "abonos" : abonos , "date" : hoy , "lista" : lista }
+        return {"pedidos" : pedidos , "abonos" : abonos , "date" : hoy , "lista" : lista , "contador" : contador , "contador_a" : contador_abonos }
+
+def reactivarPedido(request):
+    pedidos = PedidoVentas.objects.all().update(finished=False)
+    messages.success(request , 'SE REACTIVARON TODOS LOS PEDIDOS')
+    return render(request  ,"pedidos/reactivacion_pedidos.html")
+
+def DesactivarPedido(request):
+    pedidos = PedidoVentas.objects.all().update(finished=True)
+    messages.success(request , 'SE REACTIVARON TODOS LOS PEDIDOS')
+    return render(request  ,"pedidos/reactivacion_pedidos.html")

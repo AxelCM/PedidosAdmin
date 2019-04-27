@@ -52,11 +52,20 @@ class UpdateProducto(LoginRequiredMixin ,SuccessMessageMixin , UpdateView):
             'picture',
             'codigo',
             'precio',
+            'categoria'
         ]
     success_url = reverse_lazy('catalogo_list')
     success_message = "El producto se actualizo con exito"
     error_message = "Algo salio mal, no se ejecuto correctamente"
     template_name = 'productos/form_update_producto.html'
+
+    def get_context_data(self, **kwargs):
+        """Add user's posts to context."""
+        context = super().get_context_data(**kwargs)
+        id_producto = self.get_object()
+        context['categorias'] = Categoria.objects.all()
+        return context
+
 
 class HomeView(LoginRequiredMixin ,View):
     login_url = '/login/'
@@ -167,6 +176,7 @@ def search_producto(request):
 @login_required
 def search_producto_categoria(request):
     query = request.GET.get('q' , '')
+    categorias = Categoria.objects.all()
     if query:
         qset = (
             Q(categoria__nombre__icontains=query)
@@ -175,7 +185,7 @@ def search_producto_categoria(request):
         results = Producto.objects.filter(qset)
     else:
         results = []
-    return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query })
+    return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query , "categorias" : categorias})
 
 class LoginView(SuccessMessageMixin , auth_views.LoginView):
     template_name = 'productos/login.html'

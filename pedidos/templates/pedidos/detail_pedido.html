@@ -56,8 +56,13 @@
               {%for item in items%}
 
               <td>{{item.cantidad}}</td>
+
               <td>{{item.producto}}</td>
+              {%if object.finished == True %}
+              <td>Q.{{item.precio}}</td>
+              {%else%}
               <td>Q.{{item.producto.precio}}</td>
+              {%endif%}
               <td>Q.{{item.sub_total}}</td>
               {%if object.finished == False %}
               <td><a class="btn btn-danger" href="{%url "remove_product"  item.pk%}">Quitar</a>

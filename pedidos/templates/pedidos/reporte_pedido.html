@@ -1,23 +1,5 @@
 {% block content %}
-<div class="col - col-sm-12">
-<table align="center">
-  <tr>
-    <td></td>
-    <td align="center"><b>DISTRIBUIDORA DE ORIENTE S.A</b></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td align="center">Km 178 Ruta al atlantico, Bodegas Externas El Naranjo , Chiquimula</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td align="center">Telefonos: 49845093 - 79421383</td>
-    <td></td>
-  </tr>
-</table>
-</div>
+{%include 'pedidos/encabezado.html'%}
 
 <main role="main">
   <br>
@@ -34,9 +16,8 @@
           <td>{{pedido.id_pedido}}</td>
           <td align="center" width="auto">{{pedido.date}}</td>
           <td align="center" width="auto">{{pedido.cliente}}</td>
-          <td align="center" width="auto">Q.{{pedido.totalpedido}}</td>
+          <td align="center" width="auto">Q.{{pedido.total}}</td>
         </tr>
-
         </table>
 
         <div class="col-md-12">

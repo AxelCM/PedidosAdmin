@@ -61,12 +61,19 @@
     <input type="number" step="0.01" class="form-control" id="exampleFormControlInput1" name="precio" placeholder="{{object.precio}}" required=required>
   </div>
 
-  <!-- <label for="exampleFormControlSelect1">Categoria del Producto</label>
+  <label for="exampleFormControlSelect1">Categoria del Producto</label>
   <select class="form-control" id="exampleFormControlSelect1" value="{{object.categoria}}" name="categoria">
-    {%for categoria in categorias%}
-    <option value="{{categoria.pk}}" >{{categoria.nombre}}</option>
-    {%endfor%}
-  </select> -->
+  <!-- {%for categoria in categorias%}
+  <option value="{{categoria.id_categoria}}" >{{categoria.nombre}}</option>
+  {%endfor%} -->
+  {% for org in categorias %}
+     <option value="{{org.pk}}"
+         {% if object.categoria.nombre == org.nombre %}selected="selected"{% endif %}>
+         {{org.nombre|capfirst}}
+     </option>
+  {% endfor %}
+
+</select>
     <button align="center" type="submit" class="btn btn-success btn-block mt-5">Guardar</button>
 
 {%endblock content%}

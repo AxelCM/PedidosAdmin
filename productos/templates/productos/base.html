@@ -23,6 +23,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{%url "search_cliente"%}">Buscar</a>
+               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{%url "list_client"%}">Ver Clientes</a>
               <a class="dropdown-item" href="{%url "register_client"%}">Agregar Cliente</a>
             </div>
@@ -32,12 +33,13 @@
             Pedidos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{%url "pedidos_hoy"%}">Pedidos de Hoy</a>
-              <a class="dropdown-item" href="{%url "pedidos_sin_finalizar"%}">Pedidos Sin Finalizar</a>
-              <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido</a>
               <a class="dropdown-item" href="{%url "search_pedido"%}">Buscar Por Fecha</a>
-                <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Buscar Por Cliente</a>
-              <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Todos</a>
+              <a class="dropdown-item" href="{%url "search_estado_cuenta"%}">Buscar Por Cliente</a>
+              <a class="dropdown-item" href="{%url "init_pedido"%}">Comenzar Pedido</a>
+              <a class="dropdown-item" href="{%url "pedidos_sin_finalizar"%}">Pedidos Sin Finalizar</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{%url "pedidos_hoy"%}">Pedidos de Hoy</a>
+              <!-- <a class="dropdown-item" href="{%url "ver_pedidos"%}">Ver Todos</a> -->
               <!-- <a class="dropdown-item" href="{%url "iniciar_pedido"%}">Iniciar Un Pedido</a> -->
             </div>
     </li>
@@ -56,11 +58,12 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{%url "buscar_producto"%}">Buscar</a>
-        <a class="dropdown-item" href="{%url "buscar_producto_categoria"%}">Buscar por categoria</a>
+        <a class="dropdown-item" href="{%url "buscar_producto_categoria"%}">Buscar en Categoria</a>
         <a class="dropdown-item" href="{%url "crear_producto"%}">Agregar Producto</a>
         <a class="dropdown-item" href="{%url "catalogo_list"%}">Listado de Productos</a>
-        <a class="dropdown-item" href="{%url "list_categoria"%}">Categoria de Productos</a>
-        <a class="dropdown-item" href="{%url "crear_categoria"%}">Crear Categoria</a>
+         <div class="dropdown-divider"></div>
+         <a class="dropdown-item" href="{%url "crear_categoria"%}">Crear Categoria</a>
+        <a class="dropdown-item" href="{%url "list_categoria"%}">Lista de Categorias</a>
       </div>
     </li>
     <li class="nav-item active dropdown">
@@ -90,6 +93,7 @@
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{%url "search_abono_fecha"%}">Buscar Abonos Por Fecha</a>
         <a class="dropdown-item" href="{%url "search_abono"%}">Buscar Abono</a>
+         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{%url "init_abono"%}">Ingresar Abono</a>
 
       </div>

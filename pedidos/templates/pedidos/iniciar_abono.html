@@ -30,17 +30,17 @@
 <p><b>Nota:</b> Si el resultado no coincide con el deseado, busca de nuevo!</p>
   {% for search in results  %}
 	<div class="col col-md-8">
-		{%if search.Saldo  > 0 %}
+		<!-- {%if search.Saldo  > 0 %} -->
 		<div class="alert alert-info" role="alert">
 		  <h4>Abonar a {{search.cliente}} en el pedido No.{{search.id_pedido}} Q.{{search.totalpedido}} ?</h4>
 		  <b>Saldo Pendiente:Q.{{search.Saldo}}</b><br>
 		</div>
-		{%endif%}
-		{%if search.Saldo  > 0 %}
+		<!-- {%endif%} -->
+		<!-- {%if search.Saldo  > 0 %} -->
 			{%include "pedidos/widget_form_abono.html"%}
 			<br>
 			<br>
-		{%endif%}
+		<!-- {%endif%} -->
 	</div>
 {%empty%}
 <br>

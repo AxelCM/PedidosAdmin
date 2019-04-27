@@ -25,7 +25,7 @@
 
 
 <br><br>
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Pedido</th>
@@ -43,37 +43,10 @@
 {%endfor%}
 </tbody>
 </table>
-<!--
-
-<div style="float:left; " >
-    <table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">PRODUCTO</th>
-					{% for search in results  %}
-				</tr>
-			</thead>
-      <tr><td>{{search.producto}}</td></tr>
-			{%endfor%}
-    </table>
-</div>
-<div style="float:left;" >
-    <table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">CANTIDAD TOTAL</th>
-					{% for cant in cantidad  %}
-				</tr>
-				</thead>
-      <tr><td>{{cant.cantidad}} , {{cant.total}}</td></tr>
-			{%endfor%}
-    </table>
-</div> -->
-
 {% else %}
 <br>
 <div class="alert alert-warning" role="alert">
-  <h4>Lo Sentimos</h4> No se encontraron despachos para la fecha <b>"{{query}}"</b>
+  <h4>Lo Sentimos</h4> No se encontraron despachos para la fecha <b>"{{query}}"</b> o el pedido sigue sin finalizar
 </div>
 
 {%for item in items%}

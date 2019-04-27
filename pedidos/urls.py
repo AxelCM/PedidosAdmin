@@ -9,7 +9,7 @@ search_despacho , PedidosHoy , search_estado_cuenta , iniciar_pedido_widget ,
 PDFPedidoDetailView , despachoYPedidos , search_abono , iniciar_abono_widget,
 search_reporte_pedidos_abonos , PDFPedidoAbonosDetailView , PDFDepachoDiarioView ,
 FinalizarPedido, PedidosSinFinalizar,RemovePedido, PDFPedidosHoy , PDFCierreDiario,
-search_abono_fecha
+search_abono_fecha ,reactivarPedido , DesactivarPedido
 )
 
 urlpatterns = [
@@ -48,7 +48,10 @@ urlpatterns = [
     path('reporte/pedido/hoy/' , PDFPedidosHoy.as_view() , name='pdfreporte_pedidos_hoy'),
     path('cierre/diario/hoy/' , PDFCierreDiario.as_view() , name='cierre_diario'),
     path('finalizar/pedido/<int:id>/', FinalizarPedido , name="finalizar_pedido"),
-    path('search/abono/fecha/' , search_abono_fecha , name='search_abono_fecha')
+    path('search/abono/fecha/' , search_abono_fecha , name='search_abono_fecha'),
+    path('debugger/pedidos/' , reactivarPedido , name='activar_pedidos'),
+    path('debugger/pedidos/desactivar/' , DesactivarPedido , name='desactivar_pedidos'),
+
 
 
 

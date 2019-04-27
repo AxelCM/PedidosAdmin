@@ -12,6 +12,13 @@
     {%include "productos/mensajes.html"%}
   </ul>
 {% endif %}
+{% if pedidoventas_list%}
+<div class="alert alert-danger" role="alert">
+  <h4>Advertencia!</h4>Los pedidos sin finalizar no seran emitidos en los despachos del dia!
+  recuerde finalizar los pedidos para que el despacho sea correcto!
+</div>
+{%endif%}
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -33,7 +40,9 @@
       <td>{{pedidos.conteoItems}}</td>
       <td>Q.{{pedidos.totalpedido}}</td>
       <td>Q.{{pedidos.Saldo}}</td>
-      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">+</a></td>
+      <td><a class="btn btn-outline-secondary" href="{%url "detail_pedido" pedidos.id_pedido%}">+</a>
+        <a class="btn btn-outline-secondary" href="{%url "finalizar_pedido" pedidos.id_pedido%}">F</a>
+      </td>
     </tr>
     {%empty%}
     <div class="alert alert-success" role="alert">

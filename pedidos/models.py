@@ -30,7 +30,10 @@ class PedidoVentas(models.Model):
         total = 0
         for item in items:
             cantidad = item.cantidad
-            value = item.producto.precio
+            if item.id_pedido.finished is False:
+                value = item.producto.precio
+            else :
+                value = item.precio
             total += cantidad * value
         return total
 
@@ -85,7 +88,10 @@ class ItemPedido(models.Model):
     precio = models.DecimalField('Precio' , default=0.0 , max_digits=9 , decimal_places=2)
 
     def sub_total(self):
-        subtotal= self.producto.precio * self.cantidad
+        if self.id_pedido.finished is False:
+            subtotal= self.producto.precio * self.cantidad
+        else:
+            subtotal= self.precio * self.cantidad
         return subtotal
 
     def itemtotal(self):
