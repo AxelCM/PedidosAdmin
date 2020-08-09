@@ -4,8 +4,7 @@ from django.db import models
 #Modelo para crear los clientes
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
-    n_representante = models.CharField('Nombre del Representante' , max_length=100)
-    nombre_comercial = models.CharField('Nombre Comercial' , max_length=100)
+    nombre = models.CharField('Cliente' , max_length=100)
     telefono = models.CharField('No. Telefono' , max_length=10)
     direccion = models.CharField('Direccion' , max_length=150)
     mayorista = models.BooleanField('Mayorista' , default=False)
@@ -14,4 +13,4 @@ class Cliente(models.Model):
     nit = models.CharField('Nit' , max_length=15 , default='C/F')
 
     def __str__(self):
-        return "%s" % (self.nombre_comercial)
+        return "%s" % (self.nombre)

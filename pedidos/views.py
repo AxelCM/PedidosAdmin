@@ -1,5 +1,5 @@
 #Imports from Django
-from django.shortcuts import render , get_object_or_404 , render_to_response
+from django.shortcuts import render , get_object_or_404
 from django.views.generic import FormView , CreateView , TemplateView , DetailView , DeleteView , UpdateView , ListView
 from django.urls import reverse , reverse_lazy
 from django.db.models import Q  , Sum , Avg , Count , FilteredRelation
@@ -258,7 +258,7 @@ def search_pedido(request):
         results = PedidoVentas.objects.filter(qset).distinct()
     else:
         results = []
-    return render_to_response("pedidos/result.html", {"results": results ,"query": query })
+    return render("pedidos/result.html", {"results": results ,"query": query })
 
 @login_required
 def search_producto(request):
@@ -271,7 +271,7 @@ def search_producto(request):
         results = Producto.objects.filter(qset).distinct()
     else:
         results = []
-    return render_to_response("pedidos/widget_search_product.html", {"results": results ,"query": query})
+    return render("pedidos/widget_search_product.html", {"results": results ,"query": query})
 
 @login_required
 def search_despacho(request):
@@ -291,7 +291,7 @@ def search_despacho(request):
         results = []
         items = []
         cantidad = []
-    return render_to_response("pedidos/search_despacho.html", {"results": results ,"query": query , "cantidad" : cantidad , "items" : items})
+    return render("pedidos/search_despacho.html", {"results": results ,"query": query , "cantidad" : cantidad , "items" : items})
 
 @login_required
 def search_estado_cuenta(request):
@@ -306,7 +306,7 @@ def search_estado_cuenta(request):
         results = PedidoVentas.objects.filter(qset).order_by('-date')
     else:
         results = []
-    return render_to_response("pedidos/estados_de_cuenta.html", {"results": results ,"query": query })
+    return render("pedidos/estados_de_cuenta.html", {"results": results ,"query": query })
 
 class PedidosHoy(LoginRequiredMixin ,ListView):
     login_url = '/login/'
@@ -427,7 +427,7 @@ def search_reporte_pedidos_abonos(request):
         results = PedidoVentas.objects.filter(qset).order_by('-date')
     else:
         results = []
-    return render_to_response("pedidos/search_reporte_pedidos_abonos.html", {"results": results ,"query": query })
+    return render("pedidos/search_reporte_pedidos_abonos.html", {"results": results ,"query": query })
 
 @login_required
 def despachoYPedidos(request):

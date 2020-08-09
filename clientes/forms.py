@@ -9,8 +9,7 @@ class RegisterClientForm(forms.ModelForm):
 
         model = Cliente
         fields = (
-        'n_representante',
-        'nombre_comercial',
+        'nombre',
         'telefono',
         'direccion',
         'mayorista',
@@ -23,16 +22,14 @@ class RegisterClientForm(forms.ModelForm):
 
 #Validando datos y creando el objecto cliente.objects.create()
 
-        n_representante = self.cleaned_data['n_representante']
-        nombre_comercial = self.cleaned_data['nombre_comercial']
+        nombre = self.cleaned_data['nombre']
         telefono = self.cleaned_data['telefono']
         direccion = self.cleaned_data['direccion']
         mayorista = self.cleaned_data['mayorista']
         email = self.cleaned_data['email']
         nit = self.cleaned_data['nit']
         cliente = Cliente.objects.create(
-        n_representante=n_representante ,
-        nombre_comercial=nombre_comercial ,
+        nombre=nombre ,
         telefono=telefono,
         direccion=direccion,
         mayorista=mayorista,

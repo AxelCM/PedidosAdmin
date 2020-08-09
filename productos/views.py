@@ -2,7 +2,7 @@
 from django.db.models import Q , Sum , Avg
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
-from django.shortcuts import render , get_object_or_404 , render_to_response
+from django.shortcuts import render , get_object_or_404
 from django.urls import reverse , reverse_lazy
 from django.views.generic import View , TemplateView , DetailView , CreateView , ListView , UpdateView , DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -171,7 +171,7 @@ def search_producto(request):
         results = Producto.objects.filter(qset)
     else:
         results = []
-    return render_to_response("productos/search_producto.html", {"results": results ,"query": query })
+    return render("productos/search_producto.html", {"results": results ,"query": query })
 
 @login_required
 def search_producto_categoria(request):
@@ -185,7 +185,7 @@ def search_producto_categoria(request):
         results = Producto.objects.filter(qset)
     else:
         results = []
-    return render_to_response("productos/search_producto_categoria.html", {"results": results ,"query": query , "categorias" : categorias})
+    return render("productos/search_producto_categoria.html", {"results": results ,"query": query , "categorias" : categorias})
 
 class LoginView(SuccessMessageMixin , auth_views.LoginView):
     template_name = 'productos/login.html'

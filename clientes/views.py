@@ -1,5 +1,5 @@
 #Imports From Django
-from django.shortcuts import render , render_to_response
+from django.shortcuts import render
 from django.urls import reverse ,reverse_lazy
 from django.db.models import Q
 from django.views.generic import FormView , TemplateView , UpdateView , DetailView , ListView
@@ -79,10 +79,10 @@ def search_cliente(request):
     query = request.GET.get('q', '')
     if query:
         qset = (
-            Q(nombre_comercial__icontains=query)
+            Q(nombre__icontains=query)
             # |Q(nombre_comercial__icontains=query)
             )
         results = Cliente.objects.filter(qset).distinct()
     else:
         results = []
-    return render_to_response("clientes/result.html", {"results": results ,"query": query})
+    return render(request, "clientes/result.html", {"results": results ,"query": query})

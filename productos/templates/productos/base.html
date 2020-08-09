@@ -115,16 +115,16 @@
 
     <meta charset="utf-8">
     <title>{%block title%} {%endblock title%}</title>
-    {% include 'productos/css.html' %}
+    {% include 'comun/css.html' %}
 
-    {% include 'productos/bootstrap_defaults.html' %}
+    {% include 'comun/bootstrap_defaults.html' %}
   </head>
   <body>
     <div class="container">
       {%block content %}
       {%endblock content%}
     </div>
-    {%include 'productos/js.html' %}
+    {%include 'comun/js.html' %}
     <script>
       $(document).ready(function(){
         {%block jquery %} {%endblock%}
